@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= promotion ? 'Редагування акції' : 'Нова акція' %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title"><%= promotion ? 'Редагування акції' : 'Нова акція' %></div>
+    <a class="site-link" href="/admin/promotions">← Назад до акцій</a>
+  </div>
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <form method="POST" action="<%= promotion ? '/admin/promotions/' + promotion.id : '/admin/promotions' %>">
+        <div class="form-grid">
+          <div class="field"><label>Назва (UA)</label><input type="text" name="title_ua" value="<%= promotion ? promotion.title_ua : '' %>" required /></div>
+          <div class="field"><label>Назва (RU)</label><input type="text" name="title_ru" value="<%= promotion ? promotion.title_ru : '' %>" required /></div>
+          <div class="field full"><label>Текст акції (UA)</label><textarea name="text_ua" rows="4"><%= promotion ? promotion.text_ua : '' %></textarea></div>
+          <div class="field full"><label>Текст акції (RU)</label><textarea name="text_ru" rows="4"><%= promotion ? promotion.text_ru : '' %></textarea></div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Зберегти</button>
+          <a class="btn btn-ghost" href="/admin/promotions">Скасувати</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

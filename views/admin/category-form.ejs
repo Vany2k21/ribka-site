@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= category ? 'Редагування категорії' : 'Нова категорія' %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title"><%= category ? 'Редагування категорії' : 'Нова категорія' %></div>
+    <a class="site-link" href="/admin/categories">← Назад до категорій</a>
+  </div>
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <form method="POST" action="<%= category ? '/admin/categories/' + category.id : '/admin/categories' %>" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div class="field"><label>Назва (UA)</label><input type="text" name="name_ua" value="<%= category ? category.name_ua : '' %>" required /></div>
+          <div class="field"><label>Назва (RU)</label><input type="text" name="name_ru" value="<%= category ? category.name_ru : '' %>" required /></div>
+          <div class="field full"><label>Короткий опис (UA)</label><textarea name="desc_ua"><%= category ? category.desc_ua : '' %></textarea></div>
+          <div class="field full"><label>Короткий опис (RU)</label><textarea name="desc_ru"><%= category ? category.desc_ru : '' %></textarea></div>
+          <div class="field full">
+            <label>Батьківська категорія (якщо це підкатегорія)</label>
+            <select name="parentId">
+              <option value="">— Немає, це основна категорія —</option>
+              <% topLevelCategories.forEach(function(tc) { %>
+                <% if (!category || tc.id !== category.id) { %>
+                  <option value="<%= tc.id %>" <%= category && category.parentId === tc.id ? 'selected' : '' %>><%= tc.name_ua %></option>
+                <% } %>
+              <% }) %>
+            </select>
+            <p class="hint">Підкатегорії з'являтимуться у випадаючому списку при наведенні на батьківську категорію.</p>
+          </div>
+          <div class="field">
+            <label>Велике фото категорії (для плитки на головній)</label>
+            <% if (category && category.image) { %><img class="thumb" src="<%= category.image %>" style="margin-bottom:8px" /><% } %>
+            <input type="file" name="image" accept="image/*" />
+          </div>
+          <div class="field">
+            <label>Міні-іконка категорії (кругла, поверх фото)</label>
+            <% if (category && category.iconImage) { %><img class="thumb" src="<%= category.iconImage %>" style="margin-bottom:8px; border-radius:50%;" /><% } %>
+            <input type="file" name="iconImage" accept="image/*" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Зберегти</button>
+          <a class="btn btn-ghost" href="/admin/categories">Скасувати</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

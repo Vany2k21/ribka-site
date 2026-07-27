@@ -1,0 +1,153 @@
+.account-page {
+  max-width: 420px;
+  padding: 50px 20px 70px;
+}
+.account-page.account-page-wide {
+  max-width: 1040px;
+}
+
+.account-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: -1px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: #e6eef3;
+  color: var(--color-muted);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.tab-btn.active {
+  background: var(--color-card);
+  color: var(--color-primary-dark);
+}
+
+.account-card {
+  background: var(--color-card);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 24px;
+}
+.account-card:first-child { border-radius: var(--radius); }
+
+.account-card h1 {
+  font-size: 20px;
+  color: var(--color-primary-dark);
+  margin-top: 0;
+}
+
+.account-card .field { margin-bottom: 14px; }
+.account-card label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+.account-card input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d7e3ea;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: inherit;
+}
+.account-card input:disabled {
+  background: #f0f4f7;
+  color: var(--color-muted);
+  cursor: not-allowed;
+}
+
+.account-card .muted { color: var(--color-muted); font-size: 14px; }
+
+/* --- Особистий кабінет: дашборд --- */
+.account-dashboard {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+.account-side-card {
+  flex: 0 0 260px;
+  position: sticky;
+  top: 96px;
+}
+.account-main { flex: 1; min-width: 0; }
+.account-main .account-card { border-radius: 0 var(--radius) var(--radius) var(--radius); }
+.account-main h2 {
+  font-size: 17px;
+  color: var(--color-primary-dark);
+  margin: 0 0 16px;
+}
+
+.success-msg {
+  color: #1a8a4a;
+  background: #eaf9ef;
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.status-processing { background: #fdf1e3; color: #b06a11; }
+.status-packing { background: #e3edfd; color: #1b5fb0; }
+.status-shipped { background: #e3f7ea; color: #1a8a4a; }
+.status-cancelled { background: #f0f0f0; color: #6b6b6b; }
+
+.order-history-list { display: flex; flex-direction: column; gap: 16px; }
+.order-history-item {
+  border: 1px solid #eef3f6;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.order-history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.order-history-id { font-weight: 700; color: var(--color-primary-dark); }
+.order-history-date { margin: 0 0 10px; font-size: 12.5px; color: var(--color-muted); }
+.order-history-items { margin: 0 0 10px; padding-left: 18px; font-size: 13.5px; color: var(--color-text); }
+.order-history-items li { margin-bottom: 3px; }
+.order-history-total { margin: 0; font-size: 14px; color: var(--color-primary-dark); }
+
+.promo-list { display: flex; flex-direction: column; gap: 16px; }
+.promo-item {
+  border: 1px solid #eef3f6;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.promo-item h3 { margin: 0 0 6px; font-size: 15px; color: var(--color-primary-dark); }
+.promo-item p { margin: 0; font-size: 13.5px; color: var(--color-text); }
+
+@media (max-width: 780px) {
+  .account-dashboard { flex-direction: column; }
+  .account-side-card { position: static; width: 100%; flex: none; }
+}
+
+.btn-outline-plain {
+  background: none;
+  border: 1px solid #d7e3ea;
+  color: var(--color-text);
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.error-msg { color: #d9534f; font-size: 13px; margin-bottom: 12px; }
+
+.hidden { display: none; }

@@ -1,0 +1,28 @@
+<footer class="site-footer" id="contacts">
+  <div class="container footer-inner">
+    <div class="footer-col">
+      <h3><%= t(settings.siteName_ua, settings.siteName_ru) %></h3>
+      <p><%= t(settings.tagline_ua, settings.tagline_ru) %></p>
+    </div>
+    <div class="footer-col">
+      <h4><%= t('Контакти', 'Контакты') %></h4>
+      <% settings.phones.forEach(function(p) { %>
+        <p>📞 <a href="tel:<%= p.number.replace(/\s+/g,'') %>"><%= p.number %></a><% if (t(p.label_ua, p.label_ru)) { %> <span class="footer-phone-label">(<%= t(p.label_ua, p.label_ru) %>)</span><% } %></p>
+      <% }) %>
+      <p>✉️ <a href="mailto:<%= settings.email %>"><%= settings.email %></a></p>
+      <p>📍 <%= t(settings.address_ua, settings.address_ru) %></p>
+      <p>🕘 <%= t(settings.workHours_ua, settings.workHours_ru) %></p>
+    </div>
+    <div class="footer-col">
+      <h4><%= t('Каталог', 'Каталог') %></h4>
+      <% categories.forEach(function(c) { %>
+        <p><a href="/category/<%= c.slug %>"><%= f(c, 'name') %></a></p>
+      <% }) %>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      &copy; <%= new Date().getFullYear() %> <%= t(settings.siteName_ua, settings.siteName_ru) %>. <%= t('Усі права захищені.', 'Все права защищены.') %>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,193 @@
+<header class="site-header">
+  <div class="header-bar">
+    <div class="container header-bar-inner">
+      <button type="button" class="menu-toggle" aria-label="<%= t('Меню', 'Меню') %>">
+        <span></span><span></span><span></span>
+      </button>
+
+      <a href="/" class="logo">
+        <img src="/uploads/logo-fish.png" alt="<%= t(settings.siteName_ua, settings.siteName_ru) %>" class="logo-fish-img" />
+        <span class="logo-text">
+          <strong><%= t(settings.siteName_ua, settings.siteName_ru) %></strong>
+          <small><%= t(settings.tagline_ua, settings.tagline_ru) %></small>
+        </span>
+      </a>
+
+      <form class="search-form" action="/" method="get">
+        <input type="text" name="q" placeholder="<%= t('Пошук за каталогом...', 'Поиск по каталогу...') %>" />
+        <button type="submit" aria-label="Пошук"><svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+      </form>
+
+      <div class="lang-switch">
+        <a href="/lang/ua" class="<%= lang === 'ua' ? 'active' : '' %>">UA</a>
+        <span>|</span>
+        <a href="/lang/ru" class="<%= lang === 'ru' ? 'active' : '' %>">RU</a>
+      </div>
+
+      <div class="hover-dropdown phone-dropdown">
+        <button type="button" class="dropdown-trigger phone-trigger">
+          <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+          <%= settings.phones[0].number %> <span class="caret">▾</span>
+        </button>
+        <div class="dropdown-panel phone-panel">
+          <% settings.phones.forEach(function(p) { %>
+            <a href="tel:<%= p.number.replace(/\s+/g,'') %>" class="phone-item">
+              <span class="phone-number"><%= p.number %></span>
+              <% if (t(p.label_ua, p.label_ru)) { %><span class="phone-label"><%= t(p.label_ua, p.label_ru) %></span><% } %>
+            </a>
+          <% }) %>
+        </div>
+      </div>
+
+      <div class="header-icons">
+        <a href="/account" class="icon-btn icon-account" title="<%= locals.isAdminSession ? t('Адмін-панель', 'Админ-панель') : (locals.currentUser ? t('Кабінет', 'Кабинет') : t('Вхід / Реєстрація', 'Вход / Регистрация')) %>">
+          <svg class="icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+        </a>
+        <a href="#" class="icon-btn icon-wishlist" title="<%= t('Обране', 'Избранное') %>">
+          <svg class="icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.3C.5 8.4 2 4.5 5.5 4c2-.3 3.8.8 6.5 3.5C14.7 4.8 16.5 3.7 18.5 4c3.5.5 5 4.4 3.5 7.7-2.5 4.7-10 9.3-10 9.3z"/></svg>
+        </a>
+        <a href="#" class="icon-btn icon-cart" title="<%= t('Кошик', 'Корзина') %>">
+          <svg class="icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.2 14h9.6c.8 0 1.5-.5 1.7-1.2l2.4-7.3c.2-.6-.3-1.3-1-1.3H5.6L5.2 2H2v2h1.9l3.1 8.5-1.2 2.1c-.5 1 .2 2.4 1.4 2.4z"/></svg>
+          <span class="cart-badge" hidden>0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="main-nav">
+    <div class="container nav-inner">
+      <div class="hover-dropdown nav-dropdown">
+        <button type="button" class="dropdown-trigger nav-dropdown-trigger">
+          <%= t('Категорії', 'Категории') %> <span class="caret">▾</span>
+        </button>
+        <div class="dropdown-panel nav-dropdown-panel">
+          <% if (categories.length === 0) { %>
+            <span class="nav-empty"><%= t('Категорії скоро з’являться', 'Категории скоро появятся') %></span>
+          <% } else { %>
+            <% categories.forEach(function(c) { %>
+              <div class="cat-item">
+                <a href="/category/<%= c.slug %>" class="cat-link">
+                  <span class="cat-name"><%= f(c, 'name') %></span>
+                  <% if (c.children && c.children.length) { %><span class="cat-arrow">›</span><% } %>
+                </a>
+                <% if (c.children && c.children.length) { %>
+                  <button type="button" class="cat-toggle" aria-label="<%= t('Підкатегорії', 'Подкатегории') %>">›</button>
+                  <div class="cat-submenu">
+                    <% c.children.forEach(function(sc) { %>
+                      <a href="/category/<%= sc.slug %>">
+                        <span class="cat-name"><%= f(sc, 'name') %></span>
+                      </a>
+                    <% }) %>
+                  </div>
+                <% } %>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+      </div>
+      <a href="#about"><%= t('Про магазин', 'О магазине') %></a>
+      <a href="#contacts"><%= t('Контакти', 'Контакты') %></a>
+      <a href="mailto:<%= settings.email %>?subject=<%= encodeURIComponent(t('Співпраця', 'Сотрудничество')) %>">
+        <%= t('Співпраця', 'Сотрудничество') %>
+      </a>
+
+      <a href="#"><%= t('Зворотній зв\'язок', 'Обратная связь') %></a>
+    </div>
+  </nav>
+</header>
+
+<div class="mobile-menu-overlay"></div>
+<aside class="mobile-menu">
+  <div class="mobile-menu-header">
+    <span><%= t(settings.siteName_ua, settings.siteName_ru) %></span>
+    <button type="button" class="mobile-menu-close" aria-label="<%= t('Закрити', 'Закрыть') %>">✕</button>
+  </div>
+
+  <form class="mobile-search-form" action="/" method="get">
+    <input type="text" name="q" placeholder="<%= t('Пошук за каталогом...', 'Поиск по каталогу...') %>" />
+    <button type="submit" aria-label="Пошук"><svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+  </form>
+
+  <div class="mobile-menu-section mobile-categories">
+    <h3><%= t('Категорії', 'Категории') %></h3>
+    <% if (categories.length === 0) { %>
+      <p class="hint"><%= t('Категорії скоро з’являться', 'Категории скоро появятся') %></p>
+    <% } else { %>
+      <% categories.forEach(function(c) { %>
+        <div class="mobile-cat-item">
+          <a href="/category/<%= c.slug %>" class="mobile-cat-link">
+            <span><%= f(c, 'name') %></span>
+          </a>
+          <% if (c.children && c.children.length) { %>
+            <button type="button" class="mobile-cat-expand" aria-label="<%= t('Підкатегорії', 'Подкатегории') %>">▾</button>
+            <div class="mobile-cat-children">
+              <% c.children.forEach(function(sc) { %>
+                <a href="/category/<%= sc.slug %>"><%= f(sc, 'name') %></a>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <div class="mobile-menu-section">
+    <a href="#about"><%= t('Про магазин', 'О магазине') %></a>
+    <a href="#contacts"><%= t('Контакти', 'Контакты') %></a>
+    <a href="mailto:<%= settings.email %>?subject=<%= encodeURIComponent(t('Співпраця', 'Сотрудничество')) %>"><%= t('Співпраця', 'Сотрудничество') %></a>
+    <a href="#"><%= t('Зворотній зв\'язок', 'Обратная связь') %></a>
+  </div>
+
+  <div class="mobile-menu-section">
+    <h3><%= t('Телефони', 'Телефоны') %></h3>
+    <% settings.phones.forEach(function(p) { %>
+      <a href="tel:<%= p.number.replace(/\s+/g,'') %>" class="mobile-phone-item">
+        <span class="phone-number"><%= p.number %></span>
+        <% if (t(p.label_ua, p.label_ru)) { %><span class="phone-label"><%= t(p.label_ua, p.label_ru) %></span><% } %>
+      </a>
+    <% }) %>
+  </div>
+
+  <div class="mobile-menu-section mobile-menu-bottom">
+    <a href="/account"><%= locals.isAdminSession ? t('Адмін-панель', 'Админ-панель') : (locals.currentUser ? t('Кабінет', 'Кабинет') : t('Вхід / Реєстрація', 'Вход / Регистрация')) %></a>
+    <a href="#"><%= t('Обране', 'Избранное') %></a>
+    <div class="lang-switch">
+      <a href="/lang/ua" class="<%= lang === 'ua' ? 'active' : '' %>">UA</a>
+      <span>/</span>
+      <a href="/lang/ru" class="<%= lang === 'ru' ? 'active' : '' %>">RU</a>
+    </div>
+  </div>
+</aside>
+
+<div class="cart-overlay"></div>
+<aside class="cart-modal">
+  <div class="cart-modal-header">
+    <h3><%= t('Кошик', 'Корзина') %></h3>
+    <button type="button" class="cart-modal-close" aria-label="<%= t('Закрити', 'Закрыть') %>">
+      <svg class="icon-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>
+    </button>
+  </div>
+
+  <div class="cart-modal-body">
+    <div class="cart-empty hidden">
+      <p><%= t('У вас поки не вибрано жодного товару.', 'У вас пока не выбрано ни одного товара.') %></p>
+      <button type="button" class="btn btn-outline-accent cart-continue"><%= t('Продовжити покупки', 'Продолжить покупки') %></button>
+    </div>
+
+    <div class="cart-items-wrap hidden">
+      <div class="cart-items-list"></div>
+
+      <div class="cart-summary">
+        <div class="cart-summary-row cart-summary-total">
+          <span><%= t('Разом', 'Итого') %></span>
+          <span class="cart-total-value">0 <%= t('грн', 'грн') %></span>
+        </div>
+      </div>
+
+      <div class="cart-actions">
+        <a href="/checkout" class="btn btn-primary cart-checkout"><%= t('Оформити замовлення', 'Оформить заказ') %></a>
+        <button type="button" class="btn btn-outline-accent cart-continue"><%= t('Продовжити покупки', 'Продолжить покупки') %></button>
+      </div>
+    </div>
+  </div>
+</aside>

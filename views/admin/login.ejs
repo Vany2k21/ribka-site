@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вхід до адмінки</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-wrap">
+      <div class="login-badge"><img src="/uploads/logo-fish.png" alt="" /></div>
+      <h1>Вхід до адмін-панелі</h1>
+      <% if (error) { %><p class="error-msg"><%= error %></p><% } %>
+      <form method="POST" action="/admin/login">
+        <div class="field">
+          <label>Логін</label>
+          <input type="text" name="username" required autofocus autocomplete="username" />
+        </div>
+        <div class="field">
+          <label>Пароль</label>
+          <input type="password" name="password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Увійти</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

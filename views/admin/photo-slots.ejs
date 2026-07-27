@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Фото-блоки — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Фото-блоки для завантаження</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin">← Адмін-панель</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <h2>Легенда номерів</h2>
+      <p class="hint">Номер відповідає цифрі на кольоровому плейсхолдері на сайті. Завантажте фото у відповідному розділі («Налаштування сайту», «Категорії» або «Товари») — воно автоматично замінить плейсхолдер.</p>
+      <table>
+        <tr><th>№</th><th>Що це</th></tr>
+        <tr><td><span class="slot-badge"><%= heroSlot %></span></td><td>Банер на головній (розділ «Налаштування сайту»)</td></tr>
+        <% categories.forEach(function(c) { %>
+          <tr><td><span class="slot-badge"><%= categorySlots[c.id] %></span></td><td>Велике фото категорії «<%= c.name_ua %>»</td></tr>
+          <tr><td><span class="slot-badge"><%= categoryIconSlots[c.id] %></span></td><td>Міні-іконка категорії «<%= c.name_ua %>»</td></tr>
+        <% }) %>
+        <% products.forEach(function(p) { %>
+          <tr><td><span class="slot-badge"><%= productSlots[p.id] %></span></td><td>Фото товару «<%= p.name_ua %>»</td></tr>
+        <% }) %>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

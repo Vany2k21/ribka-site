@@ -1,0 +1,520 @@
+{
+  "settings": {
+    "siteName_ua": "Good Fish",
+    "siteName_ru": "Good Fish",
+    "tagline_ua": "Риба та морепродукти з доставкою",
+    "tagline_ru": "Рыба и морепродукты с доставкой",
+    "phones": [
+      {
+        "number": "+380 XX XXX XX XX",
+        "label_ua": "Відділ продажів",
+        "label_ru": "Отдел продаж"
+      },
+      {
+        "number": "+380 YY YYY YY YY",
+        "label_ua": "Служба підтримки",
+        "label_ru": "Служба поддержки"
+      }
+    ],
+    "email": "info@example.com",
+    "address_ua": "м. Київ, вул. Прикладна, 1",
+    "address_ru": "г. Киев, ул. Примерная, 1",
+    "workHours_ua": "Пн–Нд: 09:00–20:00",
+    "workHours_ru": "Пн–Вс: 09:00–20:00",
+    "about_ua": "Ми пропонуємо свіжу рибу та морепродукти найвищої якості. Уважно стежимо за свіжістю кожної партії та підбираємо перевірених постачальників, щоб на вашому столі завжди були смачні та корисні страви.",
+    "about_ru": "Мы предлагаем свежую рыбу и морепродукты высочайшего качества. Внимательно следим за свежестью каждой партии и выбираем проверенных поставщиков, чтобы на вашем столе всегда были вкусные и полезные блюда.",
+    "heroImage": "/uploads/img_1784742399831_473976.jpg"
+  },
+  "categories": [
+    {
+      "id": 2,
+      "slug": "kopchennya-solinnya",
+      "name_ua": "Копчення / соління",
+      "name_ru": "Копчение / соление",
+      "image": "/uploads/img_1785085123333_5545.png",
+      "iconImage": "/uploads/icons/smoked-fish.svg",
+      "parentId": null,
+      "desc_ua": "дуже класна рибка, супер гуд. Рекомендую, давайте зроблю заднє сальто",
+      "desc_ru": "дуже класна рибка, супер гуд. Рекомендую, давайте зроблю заднє сальто"
+    },
+    {
+      "id": 3,
+      "slug": "ikra-3",
+      "name_ua": "Ікра",
+      "name_ru": "Икра",
+      "image": null,
+      "iconImage": "/uploads/icons/caviar-mixed.svg",
+      "parentId": null,
+      "desc_ua": "",
+      "desc_ru": ""
+    },
+    {
+      "id": 4,
+      "slug": "moreprodukty-4",
+      "name_ua": "Морепродукти",
+      "name_ru": "Морепродукты",
+      "image": null,
+      "iconImage": "/uploads/icons/crab.svg",
+      "parentId": null,
+      "desc_ua": "",
+      "desc_ru": ""
+    },
+    {
+      "id": 5,
+      "slug": "ryba-5",
+      "name_ua": "Риба",
+      "name_ru": "Рыба",
+      "image": null,
+      "iconImage": "/uploads/icons/fish.svg",
+      "parentId": null
+    },
+    {
+      "id": 6,
+      "slug": "konservy-6",
+      "name_ua": "Консерви",
+      "name_ru": "Консервы",
+      "image": null,
+      "iconImage": "/uploads/icons/can.svg",
+      "parentId": null
+    },
+    {
+      "id": 7,
+      "slug": "ikra-cherna-7",
+      "name_ua": "Чорна ікра",
+      "name_ru": "Чёрная икра",
+      "image": null,
+      "iconImage": "/uploads/icons/caviar-black.svg",
+      "parentId": 3
+    },
+    {
+      "id": 8,
+      "slug": "ikra-chervona-8",
+      "name_ua": "Червона ікра",
+      "name_ru": "Красная икра",
+      "image": null,
+      "iconImage": "/uploads/icons/caviar-red.svg",
+      "parentId": 3
+    },
+    {
+      "id": 9,
+      "slug": "ikra-horbushi-9",
+      "name_ua": "Ікра горбуші",
+      "name_ru": "Икра горбуши",
+      "image": null,
+      "iconImage": "/uploads/icons/caviar-pink.svg",
+      "parentId": 3
+    },
+    {
+      "id": 10,
+      "slug": "m-iaso-10",
+      "name_ua": "М'ясо",
+      "name_ru": "Мясо",
+      "image": null,
+      "iconImage": null,
+      "parentId": null
+    }
+  ],
+  "products": [
+    {
+      "id": 2,
+      "categoryId": 2,
+      "name_ua": "Скумбрія холодного копчення",
+      "name_ru": "Скумбрия холодного копчения",
+      "desc_ua": "Скумбрія холодного копчення власного приготування, ніжна та ароматна.",
+      "desc_ru": "Скумбрия холодного копчения собственного приготовления, нежная и ароматная.",
+      "price": 249,
+      "oldPrice": 279,
+      "unit_ua": "грн/кг",
+      "unit_ru": "грн/кг",
+      "unitType": "kg",
+      "image": "/uploads/img_1784748353655_665756.jpg",
+      "orderCount": 22,
+      "slug": "skumbriia-kholodnoho-kopchennia-2",
+      "images": [
+        "/uploads/img_1784972010900_467343.jpg"
+      ]
+    },
+    {
+      "id": 3,
+      "categoryId": 8,
+      "name_ua": "Червона Ікра",
+      "name_ru": "Красна Икра",
+      "desc_ua": "Супер пупер заєбупер ікра",
+      "desc_ru": "Супер пупер заебупер икра",
+      "price": 349,
+      "oldPrice": null,
+      "unit_ua": "грн/кг",
+      "unit_ru": "грн/кг",
+      "unitType": "kg",
+      "image": "/uploads/img_1784719664097_243795.jpg",
+      "orderCount": 12,
+      "slug": "chervona-ikra-3",
+      "images": []
+    },
+    {
+      "id": 4,
+      "categoryId": 4,
+      "name_ua": "Креветки королівські",
+      "name_ru": "Креветки королевские",
+      "desc_ua": "Великі креветки, варено-морожені, ідеальні для гриля та салатів.",
+      "desc_ru": "Крупные креветки, варёно-мороженые, идеальны для гриля и салатов.",
+      "price": 420,
+      "oldPrice": null,
+      "unit_ua": "грн/кг",
+      "unit_ru": "грн/кг",
+      "unitType": "kg",
+      "image": null,
+      "orderCount": 6,
+      "slug": "krevetky-korolivski-4",
+      "images": []
+    },
+    {
+      "id": 5,
+      "categoryId": 5,
+      "name_ua": "Форель охолоджена",
+      "name_ru": "Форель охлаждённая",
+      "desc_ua": "Свіжа охолоджена форель, ідеальна для запікання та засолювання.",
+      "desc_ru": "Свежая охлаждённая форель, идеальна для запекания и засолки.",
+      "price": 385,
+      "oldPrice": null,
+      "unit_ua": "грн/кг",
+      "unit_ru": "грн/кг",
+      "unitType": "kg",
+      "image": null,
+      "orderCount": 3,
+      "slug": "forel-okholodzhena-5",
+      "images": []
+    },
+    {
+      "id": 6,
+      "categoryId": 6,
+      "name_ua": "Шпроти в олії",
+      "name_ru": "Шпроты в масле",
+      "desc_ua": "Класичні шпроти в олії, банка 240 г.",
+      "desc_ru": "Классические шпроты в масле, банка 240 г.",
+      "price": 65,
+      "oldPrice": null,
+      "unit_ua": "грн/банка",
+      "unit_ru": "грн/банка",
+      "unitType": "pcs",
+      "image": null,
+      "orderCount": 1,
+      "slug": "shproty-v-olii-6",
+      "images": []
+    },
+    {
+      "id": 7,
+      "categoryId": 9,
+      "name_ua": "Ікра горбуші слабосолена",
+      "name_ru": "Икра горбуши слабосолёная",
+      "desc_ua": "Ікра горбуші слабосолена, банка 140 г.",
+      "desc_ru": "Икра горбуши слабосолёная, банка 140 г.",
+      "price": 460,
+      "oldPrice": null,
+      "unit_ua": "грн/банка",
+      "unit_ru": "грн/банка",
+      "unitType": "pcs",
+      "image": null,
+      "orderCount": 4,
+      "slug": "ikra-horbushi-slabosolena-7",
+      "images": []
+    },
+    {
+      "id": 8,
+      "categoryId": 7,
+      "name_ua": "Чорна ікра осетрова",
+      "name_ru": "Чёрная икра осетровая",
+      "desc_ua": "Чорна ікра осетрова преміум, банка 50 г.",
+      "desc_ru": "Чёрная икра осетровая премиум, банка 50 г.",
+      "price": 3200,
+      "oldPrice": null,
+      "unit_ua": "грн/банка",
+      "unit_ru": "грн/банка",
+      "unitType": "pcs",
+      "image": null,
+      "orderCount": 2,
+      "slug": "chorna-ikra-osetrova-8",
+      "images": []
+    },
+    {
+      "id": 9,
+      "categoryId": 10,
+      "name_ua": "Свинячий ошийок",
+      "name_ru": "Свинячий ошийок",
+      "desc_ua": "Свинячий ошийок",
+      "desc_ru": "Свинячий ошийок",
+      "price": 450,
+      "oldPrice": 420,
+      "unit_ua": "грн/кг",
+      "unit_ru": "грн/кг",
+      "unitType": "kg",
+      "image": null,
+      "orderCount": 1,
+      "slug": "svyniachyi-oshyiok-9",
+      "images": []
+    },
+    {
+      "id": 10,
+      "categoryId": 2,
+      "name_ua": "Цьомчик",
+      "name_ru": "Цьомчик",
+      "desc_ua": "Супер ніжний цьомчик",
+      "desc_ru": "Супер ніжний цьомчик",
+      "price": 1000,
+      "oldPrice": null,
+      "unit_ua": "грн/кг",
+      "unit_ru": "грн/кг",
+      "unitType": "pcs",
+      "image": null,
+      "orderCount": 4,
+      "slug": "tsomchyk-10",
+      "images": []
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Тест",
+      "email": "test@gmail.com",
+      "passwordHash": "$2a$10$LzO404E14YiPanyIfVlDoOwgVKhTVyAtIgg/pxUokEK0XYpAjdh/y",
+      "createdAt": "2026-07-23T11:27:18.433Z"
+    },
+    {
+      "id": 2,
+      "name": "Марина Тест",
+      "email": "marina-dash-test@example.com",
+      "phone": "+380 63 222 33 44",
+      "address": "м. Київ, вул. Хрещатик, 1",
+      "passwordHash": "$2a$10$bqozUPZYdFfzBfTNfGFl4.dM4oSe3DAllLE76uhQFDZ1xK9QBQCWm",
+      "createdAt": "2026-07-23T11:39:54.740Z"
+    }
+  ],
+  "leads": [],
+  "nextCategoryId": 11,
+  "nextProductId": 11,
+  "nextUserId": 3,
+  "nextLeadId": 1,
+  "orders": [
+    {
+      "id": 1,
+      "email": "test@example.com",
+      "firstName": "Іван",
+      "lastName": "Тестовий",
+      "phone": "+380 67 123 45 67",
+      "deliveryMethod": "kyiv",
+      "paymentMethod": "bank",
+      "comment": "Тестовий коментар, зателефонуйте зранку",
+      "items": [
+        {
+          "productId": 3,
+          "name_ua": "Червона Ікра",
+          "name_ru": "Красна Икра",
+          "price": 349,
+          "quantity": 2,
+          "unitType": "kg",
+          "image": "/uploads/img_1784719664097_243795.jpg",
+          "available": true
+        }
+      ],
+      "total": 698,
+      "status": "cancelled",
+      "userId": null,
+      "createdAt": "2026-07-23T09:44:47.667Z"
+    },
+    {
+      "id": 2,
+      "email": "ivanpavluk93@gmail.com",
+      "firstName": "Ivan",
+      "lastName": "Pavliuk",
+      "phone": "0971418308",
+      "deliveryMethod": "pickup",
+      "paymentMethod": "cash",
+      "comment": "наберіть мене",
+      "items": [
+        {
+          "productId": 2,
+          "name_ua": "Скумбрія холодного копчення",
+          "name_ru": "Скумбрия холодного копчения",
+          "price": 249,
+          "quantity": 2,
+          "unitType": "kg",
+          "image": "/uploads/img_1784748353655_665756.jpg",
+          "available": true
+        }
+      ],
+      "total": 498,
+      "status": "cancelled",
+      "userId": null,
+      "createdAt": "2026-07-23T09:48:25.217Z"
+    },
+    {
+      "id": 3,
+      "email": "mobiletest@example.com",
+      "firstName": "Тест",
+      "lastName": "",
+      "phone": "+380 50 111 22 33",
+      "deliveryMethod": "pickup",
+      "paymentMethod": "cash",
+      "comment": "",
+      "items": [
+        {
+          "productId": 2,
+          "name_ua": "Скумбрія холодного копчення",
+          "name_ru": "Скумбрия холодного копчения",
+          "price": 249,
+          "quantity": 1,
+          "unitType": "kg",
+          "image": "/uploads/img_1784748353655_665756.jpg",
+          "available": true
+        }
+      ],
+      "total": 249,
+      "status": "processing",
+      "userId": null,
+      "createdAt": "2026-07-23T09:57:22.539Z"
+    },
+    {
+      "id": 4,
+      "email": "tgtest@example.com",
+      "firstName": "ТГ Тест",
+      "lastName": "",
+      "phone": "+380 99 000 00 00",
+      "deliveryMethod": "pickup",
+      "paymentMethod": "cash",
+      "comment": "",
+      "items": [
+        {
+          "productId": 2,
+          "name_ua": "Скумбрія холодного копчення",
+          "name_ru": "Скумбрия холодного копчения",
+          "price": 249,
+          "quantity": 1,
+          "unitType": "kg",
+          "image": "/uploads/img_1784748353655_665756.jpg",
+          "available": true
+        }
+      ],
+      "total": 249,
+      "status": "processing",
+      "userId": null,
+      "createdAt": "2026-07-23T10:37:35.285Z"
+    },
+    {
+      "id": 5,
+      "email": "telegramcheck@example.com",
+      "firstName": "Перевірка ТГ",
+      "lastName": "",
+      "phone": "+380 67 999 88 77",
+      "deliveryMethod": "kyiv",
+      "paymentMethod": "cash",
+      "comment": "Це тестове сповіщення в Telegram",
+      "items": [
+        {
+          "productId": 2,
+          "name_ua": "Скумбрія холодного копчення",
+          "name_ru": "Скумбрия холодного копчения",
+          "price": 249,
+          "quantity": 1,
+          "unitType": "kg",
+          "image": "/uploads/img_1784748353655_665756.jpg",
+          "available": true
+        }
+      ],
+      "total": 249,
+      "status": "processing",
+      "userId": null,
+      "createdAt": "2026-07-23T10:43:48.907Z"
+    },
+    {
+      "id": 6,
+      "email": "grouptest@example.com",
+      "firstName": "Перевірка групи",
+      "lastName": "",
+      "phone": "+380 63 111 22 33",
+      "deliveryMethod": "pickup",
+      "paymentMethod": "cash",
+      "comment": "",
+      "items": [
+        {
+          "productId": 2,
+          "name_ua": "Скумбрія холодного копчення",
+          "name_ru": "Скумбрия холодного копчения",
+          "price": 249,
+          "quantity": 1,
+          "unitType": "kg",
+          "image": "/uploads/img_1784748353655_665756.jpg",
+          "available": true
+        }
+      ],
+      "total": 249,
+      "status": "processing",
+      "userId": null,
+      "createdAt": "2026-07-23T10:52:11.564Z"
+    },
+    {
+      "id": 7,
+      "email": "ivanpavluk93@gmail.com",
+      "firstName": "Ivan",
+      "lastName": "Pavliuk",
+      "phone": "0971418308",
+      "deliveryMethod": "pickup",
+      "paymentMethod": "cash",
+      "comment": "Потрібно як найшвидше",
+      "items": [
+        {
+          "productId": 10,
+          "name_ua": "Цьомчик",
+          "name_ru": "Цьомчик",
+          "price": 1000,
+          "quantity": 4,
+          "unitType": "pcs",
+          "image": null,
+          "available": true
+        }
+      ],
+      "total": 4000,
+      "status": "processing",
+      "userId": null,
+      "createdAt": "2026-07-23T10:54:33.499Z"
+    },
+    {
+      "id": 8,
+      "email": "marina-dash-test@example.com",
+      "firstName": "Марина Тест",
+      "lastName": "",
+      "phone": "+380 50 555 66 77",
+      "deliveryMethod": "pickup",
+      "paymentMethod": "cash",
+      "comment": "",
+      "items": [
+        {
+          "productId": 2,
+          "name_ua": "Скумбрія холодного копчення",
+          "name_ru": "Скумбрия холодного копчения",
+          "price": 249,
+          "quantity": 1,
+          "unitType": "kg",
+          "image": "/uploads/img_1784748353655_665756.jpg",
+          "available": true
+        }
+      ],
+      "total": 249,
+      "status": "processing",
+      "userId": 2,
+      "createdAt": "2026-07-23T11:40:34.488Z"
+    }
+  ],
+  "nextOrderId": 9,
+  "promotions": [
+    {
+      "id": 1,
+      "title_ua": "Знижка 10% на ікру",
+      "title_ru": "Скидка 10% на икру",
+      "text_ua": "До кінця місяця -10% на всю ікру в асортименті. Встигни замовити!",
+      "text_ru": "До конца месяца -10% на всю икру в ассортименте. Успей заказать!",
+      "image": null,
+      "createdAt": "2026-07-23T11:42:46.751Z"
+    }
+  ],
+  "nextPromotionId": 2
+}

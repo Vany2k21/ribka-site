@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'ru' ? 'ru' : 'uk' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= t('Особистий кабінет', 'Личный кабинет') %> — <%= t(settings.siteName_ua, settings.siteName_ru) %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/account.css" />
+</head>
+<body>
+
+<%- include('partials/header', { categories }) %>
+
+<main class="account-page container <%= mode === 'user' ? 'account-page-wide' : '' %>">
+
+  <% if (mode === 'admin') { %>
+    <div class="account-card">
+      <h1><%= t('Ви увійшли як адміністратор', 'Вы вошли как администратор') %></h1>
+      <p class="muted"><%= t('У вас є доступ до керування сайтом.', 'У вас есть доступ к управлению сайтом.') %></p>
+      <a href="/admin" class="btn btn-primary"><%= t('Перейти в адмін-панель', 'Перейти в админ-панель') %></a>
+      <form method="POST" action="/account/logout" style="margin-top:14px">
+        <button type="submit" class="btn btn-outline-plain"><%= t('Вийти', 'Выйти') %></button>
+      </form>
+    </div>
+
+  <% } else if (mode === 'user') { %>
+    <% var statusLabels = {
+      processing: t('В обробці', 'В обработке'),
+      packing: t('Збирається', 'Собирается'),
+      shipped: t('Відправлено', 'Отправлено'),
+      cancelled: t('Скасовано', 'Отменено'),
+    }; %>
+    <% var statusClasses = { processing: 'status-processing', packing: 'status-packing', shipped: 'status-shipped', cancelled: 'status-cancelled' }; %>
+
+    <div class="account-dashboard">
+      <aside class="account-card account-side-card">
+        <h1><%= t('Особистий кабінет', 'Личный кабинет') %></h1>
+        <p><%= t('Вітаємо', 'Добро пожаловать') %>, <strong><%= user.name %></strong>!</p>
+        <p class="muted"><%= user.email %></p>
+        <form method="POST" action="/account/logout">
+          <button type="submit" class="btn btn-outline-plain" style="width:100%"><%= t('Вийти', 'Выйти') %></button>
+        </form>
+      </aside>
+
+      <div class="account-main">
+        <div class="account-tabs">
+          <button type="button" class="tab-btn <%= dashTab === 'orders' ? 'active' : '' %>" data-tab="orders"><%= t('Мої замовлення', 'Мои заказы') %></button>
+          <button type="button" class="tab-btn <%= dashTab === 'profile' ? 'active' : '' %>" data-tab="profile"><%= t('Профіль', 'Профиль') %></button>
+          <button type="button" class="tab-btn <%= dashTab === 'promo' ? 'active' : '' %>" data-tab="promo"><%= t('Акції', 'Акции') %></button>
+          <button type="button" class="tab-btn <%= dashTab === 'password' ? 'active' : '' %>" data-tab="password"><%= t('Пароль', 'Пароль') %></button>
+        </div>
+
+        <div class="account-card tab-panel <%= dashTab === 'orders' ? '' : 'hidden' %>" data-panel="orders">
+          <h2><%= t('Мої замовлення', 'Мои заказы') %></h2>
+          <% if (orders.length === 0) { %>
+            <p class="muted"><%= t('У вас поки немає замовлень.', 'У вас пока нет заказов.') %></p>
+            <a href="/" class="btn btn-primary"><%= t('Перейти до каталогу', 'Перейти в каталог') %></a>
+          <% } else { %>
+            <div class="order-history-list">
+              <% orders.forEach(function(o) { %>
+                <div class="order-history-item">
+                  <div class="order-history-head">
+                    <span class="order-history-id">№<%= o.id %></span>
+                    <span class="status-badge <%= statusClasses[o.status] %>"><%= statusLabels[o.status] %></span>
+                  </div>
+                  <p class="order-history-date"><%= new Date(o.createdAt).toLocaleString('uk-UA') %></p>
+                  <ul class="order-history-items">
+                    <% o.items.forEach(function(i) { %>
+                      <li><%= i.name_ua %> — <%= i.quantity %> <%= i.unitType === 'pcs' ? 'шт' : 'кг' %> × <%= i.price %> грн</li>
+                    <% }) %>
+                  </ul>
+                  <p class="order-history-total"><%= t('Разом', 'Итого') %>: <strong><%= o.total %> грн</strong></p>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="account-card tab-panel <%= dashTab === 'profile' ? '' : 'hidden' %>" data-panel="profile">
+          <h2><%= t('Профіль', 'Профиль') %></h2>
+          <% if (profileError) { %><p class="error-msg"><%= profileError %></p><% } %>
+          <% if (profileSuccess) { %><p class="success-msg"><%= t('Дані збережено', 'Данные сохранены') %></p><% } %>
+          <form method="POST" action="/account/profile">
+            <div class="field">
+              <label><%= t("Ім'я", 'Имя') %></label>
+              <input type="text" name="name" value="<%= user.name %>" required />
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="text" value="<%= user.email %>" disabled />
+            </div>
+            <div class="field">
+              <label><%= t('Телефон', 'Телефон') %></label>
+              <input type="tel" name="phone" value="<%= user.phone || '' %>" placeholder="+380 XX XXX XX XX" />
+            </div>
+            <div class="field">
+              <label><%= t('Адреса доставки', 'Адрес доставки') %></label>
+              <input type="text" name="address" value="<%= user.address || '' %>" />
+            </div>
+            <button type="submit" class="btn btn-primary"><%= t('Зберегти', 'Сохранить') %></button>
+          </form>
+        </div>
+
+        <div class="account-card tab-panel <%= dashTab === 'promo' ? '' : 'hidden' %>" data-panel="promo">
+          <h2><%= t('Акції', 'Акции') %></h2>
+          <% if (promotions.length === 0) { %>
+            <p class="muted"><%= t('Акцій поки немає. Слідкуйте за оновленнями!', 'Акций пока нет. Следите за обновлениями!') %></p>
+          <% } else { %>
+            <div class="promo-list">
+              <% promotions.slice().reverse().forEach(function(p) { %>
+                <div class="promo-item">
+                  <h3><%= f(p, 'title') %></h3>
+                  <p><%= f(p, 'text') %></p>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="account-card tab-panel <%= dashTab === 'password' ? '' : 'hidden' %>" data-panel="password">
+          <h2><%= t('Зміна пароля', 'Смена пароля') %></h2>
+          <% if (passwordError) { %><p class="error-msg"><%= passwordError %></p><% } %>
+          <% if (passwordSuccess) { %><p class="success-msg"><%= t('Пароль змінено', 'Пароль изменён') %></p><% } %>
+          <form method="POST" action="/account/password">
+            <div class="field">
+              <label><%= t('Поточний пароль', 'Текущий пароль') %></label>
+              <input type="password" name="currentPassword" required autocomplete="current-password" />
+            </div>
+            <div class="field">
+              <label><%= t('Новий пароль', 'Новый пароль') %></label>
+              <input type="password" name="newPassword" required minlength="6" autocomplete="new-password" />
+            </div>
+            <div class="field">
+              <label><%= t('Повторіть новий пароль', 'Повторите новый пароль') %></label>
+              <input type="password" name="newPassword2" required minlength="6" autocomplete="new-password" />
+            </div>
+            <button type="submit" class="btn btn-primary"><%= t('Змінити пароль', 'Изменить пароль') %></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  <% } else { %>
+    <div class="account-tabs">
+      <button type="button" class="tab-btn <%= activeTab === 'login' ? 'active' : '' %>" data-tab="login"><%= t('Вхід', 'Вход') %></button>
+      <button type="button" class="tab-btn <%= activeTab === 'register' ? 'active' : '' %>" data-tab="register"><%= t('Реєстрація', 'Регистрация') %></button>
+    </div>
+
+    <div class="account-card tab-panel <%= activeTab === 'login' ? '' : 'hidden' %>" data-panel="login">
+      <h1><%= t('Вхід', 'Вход') %></h1>
+      <% if (loginError) { %><p class="error-msg"><%= loginError %></p><% } %>
+      <form method="POST" action="/account/login">
+        <div class="field">
+          <label><%= t('Email', 'Email') %></label>
+          <input type="text" name="login" required autocomplete="username" />
+        </div>
+        <div class="field">
+          <label><%= t('Пароль', 'Пароль') %></label>
+          <input type="password" name="password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%"><%= t('Увійти', 'Войти') %></button>
+      </form>
+    </div>
+
+    <div class="account-card tab-panel <%= activeTab === 'register' ? '' : 'hidden' %>" data-panel="register">
+      <h1><%= t('Реєстрація', 'Регистрация') %></h1>
+      <% if (registerError) { %><p class="error-msg"><%= registerError %></p><% } %>
+      <form method="POST" action="/account/register">
+        <div class="field">
+          <label><%= t("Ім'я", 'Имя') %></label>
+          <input type="text" name="name" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label><%= t('Пароль', 'Пароль') %></label>
+          <input type="password" name="password" required minlength="6" autocomplete="new-password" />
+        </div>
+        <div class="field">
+          <label><%= t('Повторіть пароль', 'Повторите пароль') %></label>
+          <input type="password" name="password2" required minlength="6" autocomplete="new-password" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%"><%= t('Зареєструватися', 'Зарегистрироваться') %></button>
+      </form>
+    </div>
+  <% } %>
+
+</main>
+
+<%- include('partials/footer', { categories }) %>
+
+<script src="/js/main.js"></script>
+<script>
+  document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.add('hidden'); });
+      btn.classList.add('active');
+      document.querySelector('.tab-panel[data-panel="' + btn.dataset.tab + '"]').classList.remove('hidden');
+    });
+  });
+</script>
+
+</body>
+</html>

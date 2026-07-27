@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Замовлення — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Замовлення</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin">← Адмін-панель</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+
+    <% var statusLabels = { processing: 'В обробці', packing: 'Збирається', shipped: 'Відправлено', cancelled: 'Клієнт відмовився' }; %>
+    <% var statusClasses = { processing: 'status-processing', packing: 'status-packing', shipped: 'status-shipped', cancelled: 'status-cancelled' }; %>
+
+    <div class="admin-section">
+      <h2>Усі замовлення (<%= orders.length %>)</h2>
+      <% if (orders.length === 0) { %>
+        <p class="hint">Замовлень поки немає.</p>
+      <% } else { %>
+        <table>
+          <tr><th>№</th><th>Дата</th><th>Клієнт</th><th>Телефон</th><th>Товарів</th><th>Сума</th><th>Статус</th><th></th></tr>
+          <% orders.forEach(function(o) { %>
+            <tr>
+              <td>#<%= o.id %></td>
+              <td><%= new Date(o.createdAt).toLocaleString('uk-UA') %></td>
+              <td><%= o.firstName %> <%= o.lastName %></td>
+              <td><a href="tel:<%= o.phone.replace(/\s+/g,'') %>"><%= o.phone %></a></td>
+              <td><%= o.items.length %></td>
+              <td><%= o.total %> грн</td>
+              <td><span class="status-badge <%= statusClasses[o.status] %>"><%= statusLabels[o.status] %></span></td>
+              <td class="row-actions"><a class="btn btn-ghost" href="/admin/orders/<%= o.id %>">Деталі</a></td>
+            </tr>
+          <% }) %>
+        </table>
+      <% } %>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Товари — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Товари</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin">← Адмін-панель</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <h2>Товари (<%= products.length %>) <a class="btn btn-primary" href="/admin/products/new">+ Додати товар</a></h2>
+      <table>
+        <tr><th>№</th><th>Фото</th><th>Назва (UA)</th><th>Категорія</th><th>Ціна</th><th>Тип</th><th>Замовлень</th><th></th></tr>
+        <% products.forEach(function(p) { %>
+          <% var cat = categories.find(function(c){ return c.id === p.categoryId; }); %>
+          <tr>
+            <td><span class="slot-badge"><%= productSlots[p.id] %></span></td>
+            <td><% if (p.image) { %><img class="thumb" src="<%= p.image %>" /><% } else { %><div class="thumb-empty">немає</div><% } %></td>
+            <td><%= p.name_ua %></td>
+            <td><%= cat ? cat.name_ua : '—' %></td>
+            <td><%= p.price %> <%= p.unit_ua %></td>
+            <td><%= p.unitType === 'pcs' ? 'ШТ' : 'КГ' %></td>
+            <td><%= p.orderCount || 0 %></td>
+            <td class="row-actions">
+              <a class="btn btn-ghost" href="/product/<%= p.slug %>" target="_blank">Переглянути</a>
+              <a class="btn btn-ghost" href="/admin/products/<%= p.id %>/edit">Редагувати</a>
+              <form class="inline" method="POST" action="/admin/products/<%= p.id %>/delete" onsubmit="return confirm('Видалити товар?');">
+                <button type="submit" class="btn btn-danger">Видалити</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

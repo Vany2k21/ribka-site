@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Заявки на зв'язок — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Заявки на зворотній зв'язок</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin">← Адмін-панель</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <h2>Заявки (<%= leads.length %>)</h2>
+      <% if (leads.length === 0) { %>
+        <p class="hint">Поки що немає жодної заявки.</p>
+      <% } else { %>
+        <table>
+          <tr><th>Дата</th><th>Ім'я</th><th>Телефон</th><th></th></tr>
+          <% leads.slice().reverse().forEach(function(l) { %>
+            <tr>
+              <td><%= new Date(l.createdAt).toLocaleString('uk-UA') %></td>
+              <td><%= l.name %></td>
+              <td><a href="tel:<%= l.phone.replace(/\s+/g,'') %>"><%= l.phone %></a></td>
+              <td class="row-actions">
+                <form class="inline" method="POST" action="/admin/leads/<%= l.id %>/delete" onsubmit="return confirm('Видалити заявку?');">
+                  <button type="submit" class="btn btn-danger">Видалити</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </table>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

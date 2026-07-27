@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'ru' ? 'ru' : 'uk' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><% if (activeCategory) { %><%= f(activeCategory, 'name') %> — <% } %><%= t(settings.siteName_ua, settings.siteName_ru) %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="has-hero">
+
+<%- include('partials/header', { categories }) %>
+
+<main>
+
+  <section class="hero">
+    <%- include('partials/photo-block', { image: settings.heroImage, slot: heroSlot, alt: 'Банер', cssClass: 'hero-photo' }) %>
+    <div class="hero-overlay">
+      <div class="container">
+        <% if (activeCategory) { %>
+          <div class="hero-breadcrumb-row">
+            <a href="/" class="hero-breadcrumb">← <%= t('Усі категорії', 'Все категории') %></a>
+            <% if (activeParent) { %>
+              <a href="/category/<%= activeParent.slug %>" class="hero-breadcrumb"><%= f(activeParent, 'name') %></a>
+            <% } %>
+          </div>
+          <h1><%= f(activeCategory, 'name') %></h1>
+        <% } else { %>
+          <h1><%= t(settings.siteName_ua, settings.siteName_ru) %></h1>
+          <p><%= t(settings.tagline_ua, settings.tagline_ru) %></p>
+        <% } %>
+        <a href="#catalog" class="btn btn-primary"><%= t('Переглянути каталог', 'Смотреть каталог') %></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="sunken-panel">
+   <div class="sunken-panel-inner">
+  <section id="catalog" class="catalog container">
+    <div class="catalog-layout">
+      <aside class="catalog-sidebar">
+        <h3 class="catalog-sidebar-title"><%= t('Категорії', 'Категории') %></h3>
+        <nav class="sidebar-cat-list">
+          <% categories.forEach(function(c) {
+            var hasChildren = c.children && c.children.length;
+            var isCurrent = activeCategory && activeCategory.id === c.id;
+            var isBranchOpen = isCurrent || (activeParent && activeParent.id === c.id);
+          %>
+            <div class="sidebar-cat-item">
+              <a href="/category/<%= c.slug %>" class="sidebar-cat-link <%= isCurrent ? 'current' : '' %>">
+                <span><%= f(c, 'name') %></span>
+              </a>
+              <% if (hasChildren) { %>
+                <button type="button" class="sidebar-cat-expand <%= isBranchOpen ? 'open' : '' %>" aria-label="<%= t('Підкатегорії', 'Подкатегории') %>">›</button>
+                <div class="sidebar-cat-children <%= isBranchOpen ? 'open' : '' %>">
+                  <% c.children.forEach(function(sc) { %>
+                    <a href="/category/<%= sc.slug %>" class="<%= activeCategory && activeCategory.id === sc.id ? 'current' : '' %>"><%= f(sc, 'name') %></a>
+                  <% }) %>
+                </div>
+              <% } %>
+            </div>
+          <% }) %>
+        </nav>
+      </aside>
+
+      <div class="catalog-main">
+        <% if (productsByCategory.length === 0) { %>
+          <p class="empty-note"><%= t('Товари незабаром з’являться.', 'Товары скоро появятся.') %></p>
+        <% } %>
+        <% productsByCategory.forEach(function(block) { %>
+          <div class="category-block" id="cat-<%= block.category.slug %>">
+            <div class="category-heading">
+              <div class="category-cover">
+                <%- include('partials/photo-block', { image: block.category.image, slot: block.slot, alt: f(block.category, 'name'), cssClass: 'category-cover-photo' }) %>
+              </div>
+              <h2><%= f(block.category, 'name') %></h2>
+            </div>
+
+            <div class="catalog-toolbar">
+              <span class="catalog-count"><%= block.products.length %> <%= t('товарів', 'товаров') %></span>
+              <form method="GET" class="catalog-sort-form">
+                <label for="sortSelect"><%= t('Сортувати:', 'Сортировать:') %></label>
+                <select id="sortSelect" name="sort">
+                  <option value="popular" <%= currentSort === 'popular' ? 'selected' : '' %>><%= t('За популярністю', 'По популярности') %></option>
+                  <option value="price-asc" <%= currentSort === 'price-asc' ? 'selected' : '' %>><%= t('Спочатку дешевші', 'Сначала дешевле') %></option>
+                  <option value="price-desc" <%= currentSort === 'price-desc' ? 'selected' : '' %>><%= t('Спочатку дорожчі', 'Сначала дороже') %></option>
+                  <option value="name" <%= currentSort === 'name' ? 'selected' : '' %>><%= t('За назвою (А-Я)', 'По названию (А-Я)') %></option>
+                  <option value="newest" <%= currentSort === 'newest' ? 'selected' : '' %>><%= t('Спочатку нові', 'Сначала новые') %></option>
+                </select>
+              </form>
+            </div>
+
+            <% chunk(block.products, 5).forEach(function(group) { %>
+              <div class="products-grid">
+                <% group.forEach(function(p) { %>
+                  <%- include('partials/product-card', { p: p }) %>
+                <% }) %>
+              </div>
+            <% }) %>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about container">
+    <h2><%= t('Про магазин', 'О магазине') %></h2>
+    <p><%= t(settings.about_ua, settings.about_ru) %></p>
+  </section>
+   </div>
+  </div>
+
+</main>
+
+<%- include('partials/footer', { categories }) %>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

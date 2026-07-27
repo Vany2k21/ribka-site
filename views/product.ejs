@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'ru' ? 'ru' : 'uk' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= f(product, 'name') %> — <%= t(settings.siteName_ua, settings.siteName_ru) %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<%- include('partials/header', { categories }) %>
+
+<main>
+  <div class="container all-categories-heading pd-breadcrumb-row">
+    <a href="/" class="hero-breadcrumb hero-breadcrumb-dark">← <%= t('На головну', 'На главную') %></a>
+    <% if (category) { %>
+      <span class="pd-breadcrumb-sep">/</span>
+      <a href="/category/<%= category.slug %>" class="hero-breadcrumb hero-breadcrumb-dark"><%= f(category, 'name') %></a>
+    <% } %>
+  </div>
+
+  <section class="container product-detail">
+    <div class="product-detail-layout">
+      <div class="product-detail-photo">
+        <% if (galleryImages.length === 0) { %>
+          <%- include('partials/photo-block', { image: null, slot: product.slot, alt: f(product, 'name'), cssClass: 'product-detail-photo-inner' }) %>
+        <% } else { %>
+          <div class="pd-gallery">
+            <% if (galleryImages.length > 1) { %>
+              <div class="pd-gallery-thumbs">
+                <% galleryImages.forEach(function(img, i) { %>
+                  <button type="button" class="pd-gallery-thumb <%= i === 0 ? 'active' : '' %>" data-index="<%= i %>">
+                    <img src="<%= img %>" alt="" />
+                  </button>
+                <% }) %>
+              </div>
+            <% } %>
+            <div class="pd-gallery-main">
+              <img src="<%= galleryImages[0] %>" alt="<%= f(product, 'name') %>" class="pd-gallery-main-img" />
+              <% if (galleryImages.length > 1) { %>
+                <button type="button" class="pd-gallery-nav pd-gallery-prev" aria-label="<%= t('Попереднє фото', 'Предыдущее фото') %>">
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button type="button" class="pd-gallery-nav pd-gallery-next" aria-label="<%= t('Наступне фото', 'Следующее фото') %>">
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+      </div>
+
+      <div class="product-detail-info" data-price="<%= product.price %>" data-product-id="<%= product.id %>">
+        <h1><%= f(product, 'name') %></h1>
+        <p class="product-subtitle"><%= product.unitType === 'pcs' ? t('Штучний товар', 'Штучный товар') : t('Вагова ціна', 'Весовая цена') %></p>
+
+        <div class="pd-price-row">
+          <% if (product.oldPrice) { %><span class="old-price"><%= product.oldPrice %> <%= f(product, 'unit') %></span><% } %>
+          <span class="price pd-price"><%= product.price %> <%= f(product, 'unit') %></span>
+        </div>
+
+        <div class="quick-add-panel pd-add-panel">
+          <div class="qty-stepper">
+            <button type="button" class="qty-minus" aria-label="<%= t('Менше', 'Меньше') %>">−</button>
+            <span class="qty-value">1</span>
+            <input type="hidden" class="qty-input" value="1" />
+            <span class="qty-unit"><%= product.unitType === 'pcs' ? t('шт', 'шт') : t('кг', 'кг') %></span>
+            <button type="button" class="qty-plus" aria-label="<%= t('Більше', 'Больше') %>">+</button>
+          </div>
+          <button type="button" class="btn btn-primary qty-submit pd-submit">
+            <%= t('Додати в кошик', 'Добавить в корзину') %> · <span class="qty-total"><%= product.price %></span> <%= t('грн', 'грн') %>
+          </button>
+        </div>
+
+        <% if (f(product, 'desc')) { %>
+          <div class="pd-description">
+            <h2><%= t('Опис', 'Описание') %></h2>
+            <p><%= f(product, 'desc') %></p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <% if (relatedProducts.length > 0) { %>
+    <section class="container popular-section">
+      <div class="popular-heading">
+        <h2><%= t('Схожі товари', 'Похожие товары') %></h2>
+      </div>
+      <div class="products-grid">
+        <% relatedProducts.forEach(function(p) { %>
+          <%- include('partials/product-card', { p: p }) %>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+</main>
+
+<%- include('partials/footer', { categories }) %>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

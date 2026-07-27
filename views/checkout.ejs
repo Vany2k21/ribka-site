@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'ru' ? 'ru' : 'uk' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= t('Оформлення замовлення', 'Оформление заказа') %> — <%= t(settings.siteName_ua, settings.siteName_ru) %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<%- include('partials/header', { categories }) %>
+
+<main>
+  <div class="container all-categories-heading">
+    <a href="/" class="hero-breadcrumb hero-breadcrumb-dark">← <%= t('На головну', 'На главную') %></a>
+    <h1><%= t('Оформлення замовлення', 'Оформление заказа') %></h1>
+  </div>
+
+  <section class="container checkout-section">
+    <% if (formError) { %>
+      <p class="checkout-error"><%= formError %></p>
+    <% } %>
+
+    <form method="POST" action="/checkout" class="checkout-layout">
+      <div class="checkout-form">
+        <div class="checkout-block">
+          <h3><%= t('Контактні дані', 'Контактные данные') %></h3>
+          <div class="field">
+            <label>Email *</label>
+            <input type="email" name="email" required value="<%= currentUser ? currentUser.email : '' %>" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label><%= t("Ім'я", 'Имя') %> *</label>
+              <input type="text" name="firstName" required value="<%= currentUser ? currentUser.name : '' %>" />
+            </div>
+            <div class="field">
+              <label><%= t('Прізвище', 'Фамилия') %></label>
+              <input type="text" name="lastName" />
+            </div>
+          </div>
+          <div class="field">
+            <label><%= t('Телефон', 'Телефон') %> *</label>
+            <input type="tel" name="phone" required placeholder="+380 XX XXX XX XX" />
+          </div>
+        </div>
+
+        <div class="checkout-block">
+          <h3><%= t('Спосіб доставки', 'Способ доставки') %></h3>
+          <label class="radio-option">
+            <input type="radio" name="deliveryMethod" value="pickup" checked />
+            <span><%= t('Самовивіз в Києві', 'Самовывоз в Киеве') %> — <b><%= t('безкоштовно', 'бесплатно') %></b></span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="deliveryMethod" value="kyiv" />
+            <span><%= t('Доставка по Києву', 'Доставка по Киеву') %> — <b><%= t('уточнюється', 'уточняется') %></b></span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="deliveryMethod" value="nova-poshta" />
+            <span><%= t('Нова Пошта', 'Новая Почта') %> — <b><%= t('за тарифами перевізника', 'по тарифам перевозчика') %></b></span>
+          </label>
+        </div>
+
+        <div class="checkout-block">
+          <h3><%= t('Спосіб оплати', 'Способ оплаты') %></h3>
+          <label class="radio-option">
+            <input type="radio" name="paymentMethod" value="cash" checked />
+            <span><%= t('Готівкою при отриманні', 'Наличными при получении') %></span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="paymentMethod" value="bank" />
+            <span><%= t('Банківський переказ', 'Банковский перевод') %></span>
+          </label>
+        </div>
+
+        <div class="checkout-block">
+          <label><%= t('Коментар до замовлення', 'Комментарий к заказу') %></label>
+          <textarea name="comment" rows="3" placeholder="<%= t('Додати коментар...', 'Добавить комментарий...') %>"></textarea>
+        </div>
+      </div>
+
+      <aside class="checkout-summary">
+        <h3><%= t('Ваше замовлення', 'Ваш заказ') %></h3>
+        <div class="checkout-items">
+          <% cart.forEach(function(item) { %>
+            <div class="checkout-item">
+              <div class="checkout-item-photo">
+                <% if (item.product.image) { %>
+                  <img src="<%= item.product.image %>" alt="" />
+                <% } else { %>
+                  <svg class="icon-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12c3-4 8-6 13-4 2 .8 4 2.4 5 4-1 1.6-3 3.2-5 4-5 2-10 0-13-4z"/></svg>
+                <% } %>
+              </div>
+              <div class="checkout-item-info">
+                <p class="checkout-item-name"><%= f(item.product, 'name') %></p>
+                <p class="checkout-item-qty"><%= item.quantity %> × <%= item.product.price %> <%= f(item.product, 'unit') %></p>
+              </div>
+              <span class="checkout-item-total"><%= item.lineTotal.toFixed(0) %> <%= t('грн', 'грн') %></span>
+            </div>
+          <% }) %>
+        </div>
+
+        <a href="/" class="checkout-edit-link"><%= t('← Змінити кошик', '← Изменить корзину') %></a>
+
+        <div class="checkout-total-row">
+          <span><%= t('Разом до сплати', 'Итого к оплате') %></span>
+          <span class="checkout-total-value"><%= subtotal.toFixed(0) %> <%= t('грн', 'грн') %></span>
+        </div>
+
+        <label class="checkout-agree">
+          <input type="checkbox" required />
+          <span><%= t('Я погоджуюсь з умовами обробки замовлення', 'Я согласен с условиями обработки заказа') %></span>
+        </label>
+
+        <button type="submit" class="btn btn-primary checkout-submit"><%= t('Підтвердити замовлення', 'Подтвердить заказ') %></button>
+      </aside>
+    </form>
+  </section>
+</main>
+
+<%- include('partials/footer', { categories }) %>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'ru' ? 'ru' : 'uk' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= t('Замовлення прийнято', 'Заказ принят') %> — <%= t(settings.siteName_ua, settings.siteName_ru) %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<%- include('partials/header', { categories }) %>
+
+<main>
+  <section class="container checkout-success">
+    <div class="checkout-success-icon">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <h1><%= t('Дякуємо за замовлення!', 'Спасибо за заказ!') %></h1>
+    <p><%= t('Номер вашого замовлення', 'Номер вашего заказа') %>: <b>#<%= order.id %></b></p>
+    <p><%= t('Ми зв’яжемось з вами найближчим часом для підтвердження.', 'Мы свяжемся с вами в ближайшее время для подтверждения.') %></p>
+    <a href="/" class="btn btn-primary"><%= t('На головну', 'На главную') %></a>
+  </section>
+</main>
+
+<%- include('partials/footer', { categories }) %>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

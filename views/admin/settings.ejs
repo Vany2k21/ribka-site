@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Налаштування сайту — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Налаштування сайту</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin">← Адмін-панель</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <form method="POST" action="/admin/settings" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div class="field"><label>Назва магазину (UA)</label><input type="text" name="siteName_ua" value="<%= settings.siteName_ua %>" /></div>
+          <div class="field"><label>Назва магазину (RU)</label><input type="text" name="siteName_ru" value="<%= settings.siteName_ru %>" /></div>
+          <div class="field"><label>Слоган (UA)</label><input type="text" name="tagline_ua" value="<%= settings.tagline_ua %>" /></div>
+          <div class="field"><label>Слоган (RU)</label><input type="text" name="tagline_ru" value="<%= settings.tagline_ru %>" /></div>
+          <div class="field full">
+            <label>Телефони (один на рядок, формат: номер | назва UA | назва RU)</label>
+            <textarea name="phonesText" rows="4"><%= settings.phones.map(function(p) { return [p.number, p.label_ua, p.label_ru].filter(Boolean).join(' | '); }).join('\n') %></textarea>
+            <p class="hint">Приклад: +380 44 332 91 90 | Відділ продажів | Отдел продаж. Перший рядок показується в шапці сайту, решта — у випадаючому списку.</p>
+          </div>
+          <div class="field"><label>Email</label><input type="email" name="email" value="<%= settings.email %>" /></div>
+          <div class="field"><label>Адреса (UA)</label><input type="text" name="address_ua" value="<%= settings.address_ua %>" /></div>
+          <div class="field"><label>Адреса (RU)</label><input type="text" name="address_ru" value="<%= settings.address_ru %>" /></div>
+          <div class="field"><label>Графік роботи (UA)</label><input type="text" name="workHours_ua" value="<%= settings.workHours_ua %>" /></div>
+          <div class="field"><label>Графік роботи (RU)</label><input type="text" name="workHours_ru" value="<%= settings.workHours_ru %>" /></div>
+          <div class="field full"><label>Текст «Про магазин» (UA)</label><textarea name="about_ua"><%= settings.about_ua %></textarea></div>
+          <div class="field full"><label>Текст «Про магазин» (RU)</label><textarea name="about_ru"><%= settings.about_ru %></textarea></div>
+          <div class="field full">
+            <label>Банер головної сторінки — фото-блок №<%= heroSlot %></label>
+            <% if (settings.heroImage) { %><img class="thumb" src="<%= settings.heroImage %>" style="margin-bottom:8px" /><% } %>
+            <input type="file" name="heroImage" accept="image/*" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Зберегти налаштування</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

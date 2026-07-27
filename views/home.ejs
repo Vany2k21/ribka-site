@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'ru' ? 'ru' : 'uk' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= t(settings.siteName_ua, settings.siteName_ru) %> — <%= t(settings.tagline_ua, settings.tagline_ru) %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="has-hero">
+
+<%- include('partials/header', { categories }) %>
+
+<main>
+
+  <section class="hero">
+    <%- include('partials/photo-block', { image: settings.heroImage, slot: heroSlot, alt: 'Банер', cssClass: 'hero-photo' }) %>
+    <div class="hero-overlay">
+      <div class="container">
+        <h1><%= t(settings.siteName_ua, settings.siteName_ru) %></h1>
+        <p><%= t(settings.tagline_ua, settings.tagline_ru) %></p>
+        <a href="#popular" class="btn btn-primary"><%= t('Переглянути каталог', 'Смотреть каталог') %></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="sunken-panel">
+   <div class="sunken-panel-inner">
+    <section id="popular" class="popular-section container">
+      <div class="popular-heading">
+        <h2><%= t('Популярні категорії', 'Популярные категории') %></h2>
+        <a href="/categories" class="btn btn-outline-accent"><%= t('Всі категорії', 'Все категории') %> →</a>
+      </div>
+
+      <% if (popularCategories.length === 0) { %>
+        <p class="empty-note"><%= t('Категорії незабаром з’являться.', 'Категории скоро появятся.') %></p>
+      <% } else { %>
+        <% chunk(popularCategories, 3).forEach(function(group) { %>
+          <div class="category-tiles-grid">
+            <% group.forEach(function(c) { %>
+              <%- include('partials/category-tile', { category: c }) %>
+            <% }) %>
+          </div>
+        <% }) %>
+      <% } %>
+    </section>
+
+    <section id="bestsellers" class="popular-section container">
+      <div class="popular-heading">
+        <h2><%= t('Лідери продажів', 'Лидеры продаж') %></h2>
+      </div>
+
+      <% if (bestsellerProducts.length === 0) { %>
+        <p class="empty-note"><%= t('Товари незабаром з’являться.', 'Товары скоро появятся.') %></p>
+      <% } else { %>
+        <% chunk(bestsellerProducts, 3).forEach(function(group) { %>
+          <div class="products-grid">
+            <% group.forEach(function(p) { %>
+              <%- include('partials/product-card', { p: p }) %>
+            <% }) %>
+          </div>
+        <% }) %>
+      <% } %>
+    </section>
+
+    <section id="about" class="about container">
+      <h2><%= t('Про магазин', 'О магазине') %></h2>
+      <p><%= t(settings.about_ua, settings.about_ru) %></p>
+    </section>
+   </div>
+  </div>
+
+</main>
+
+<%- include('partials/footer', { categories }) %>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

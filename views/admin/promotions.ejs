@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Акції — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Акції</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin">← Адмін-панель</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <h2>Акції (<%= promotions.length %>) <a class="btn btn-primary" href="/admin/promotions/new">+ Додати акцію</a></h2>
+      <% if (promotions.length === 0) { %>
+        <p class="hint">Акцій поки немає. Вони з'являться у вкладці "Акції" в особистому кабінеті користувачів.</p>
+      <% } else { %>
+        <table>
+          <tr><th>Дата</th><th>Назва (UA)</th><th>Текст (UA)</th><th></th></tr>
+          <% promotions.forEach(function(p) { %>
+            <tr>
+              <td><%= new Date(p.createdAt).toLocaleDateString('uk-UA') %></td>
+              <td><%= p.title_ua %></td>
+              <td><%= p.text_ua.length > 60 ? p.text_ua.slice(0, 60) + '…' : p.text_ua %></td>
+              <td class="row-actions">
+                <a class="btn btn-ghost" href="/admin/promotions/<%= p.id %>/edit">Редагувати</a>
+                <form class="inline" method="POST" action="/admin/promotions/<%= p.id %>/delete" onsubmit="return confirm('Видалити акцію?');">
+                  <button type="submit" class="btn btn-danger">Видалити</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </table>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

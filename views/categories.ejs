@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="<%= lang === 'ru' ? 'ru' : 'uk' %>">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= t('Всі категорії', 'Все категории') %> — <%= t(settings.siteName_ua, settings.siteName_ru) %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<%- include('partials/header', { categories }) %>
+
+<main>
+  <div class="container all-categories-heading">
+    <a href="/" class="hero-breadcrumb hero-breadcrumb-dark">← <%= t('На головну', 'На главную') %></a>
+    <h1><%= t('Всі категорії', 'Все категории') %></h1>
+  </div>
+
+  <section class="container all-categories-section">
+    <% if (categories.length === 0) { %>
+      <p class="empty-note"><%= t('Категорії незабаром з’являться.', 'Категории скоро появятся.') %></p>
+    <% } %>
+    <% categories.forEach(function(c) { %>
+      <div class="all-categories-block">
+        <%- include('partials/category-tile', { category: c }) %>
+        <% if (c.children && c.children.length) { %>
+          <div class="all-categories-subgrid">
+            <% c.children.forEach(function(sc) { %>
+              <a href="/category/<%= sc.slug %>" class="subcategory-chip">
+                <%= f(sc, 'name') %>
+                <span class="cat-count"><%= sc.productCount %></span>
+              </a>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    <% }) %>
+  </section>
+</main>
+
+<%- include('partials/footer', { categories }) %>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

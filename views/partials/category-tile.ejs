@@ -1,0 +1,15 @@
+<a href="/category/<%= category.slug %>" class="category-tile">
+  <div class="category-tile-photo-wrap">
+    <%- include('photo-block', { image: category.image, slot: category.slot, alt: f(category, 'name'), cssClass: 'category-tile-photo' }) %>
+    <div class="category-tile-icon">
+      <%- include('photo-block', { image: category.iconImage, slot: category.iconSlot, alt: f(category, 'name') + ' іконка', cssClass: 'category-tile-icon-photo' }) %>
+    </div>
+    <div class="category-tile-overlay">
+      <span class="category-tile-name"><%= f(category, 'name') %></span>
+      <% if (f(category, 'desc')) { %>
+        <p class="category-tile-desc"><%= f(category, 'desc') %></p>
+      <% } %>
+      <span class="category-tile-cta"><%= t('Перейти', 'Перейти') %> →</span>
+    </div>
+  </div>
+</a>

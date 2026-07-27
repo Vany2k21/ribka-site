@@ -1,0 +1,37 @@
+<div class="product-card" data-price="<%= p.price %>" data-product-id="<%= p.id %>" data-order-count="<%= p.orderCount || 0 %>">
+  <a href="/product/<%= p.slug %>" class="product-photo-wrap">
+    <%- include('photo-block', { image: p.image, slot: p.slot, alt: f(p, 'name'), cssClass: 'product-photo' }) %>
+    <% if (p.oldPrice) { %><span class="badge-sale"><%= t('Знижка', 'Скидка') %></span><% } %>
+  </a>
+
+  <div class="product-info">
+    <h3><a href="/product/<%= p.slug %>" class="product-title-link"><%= f(p, 'name') %></a></h3>
+    <p class="product-subtitle"><%= p.unitType === 'pcs' ? t('Штучний товар', 'Штучный товар') : t('Вагова ціна', 'Весовая цена') %></p>
+
+    <div class="product-bottom-row">
+      <div class="product-price-row">
+        <% if (p.oldPrice) { %>
+          <span class="old-price"><%= p.oldPrice %> <%= f(p, 'unit') %></span>
+        <% } %>
+        <span class="price"><%= p.price %> <%= f(p, 'unit') %></span>
+      </div>
+      <button type="button" class="quick-add-btn"><%= t('Замовити', 'Заказать') %></button>
+    </div>
+
+    <div class="quick-add-panel hidden">
+      <div class="qty-row">
+        <div class="qty-stepper">
+          <button type="button" class="qty-minus" aria-label="<%= t('Менше', 'Меньше') %>">−</button>
+          <span class="qty-value">1</span>
+          <input type="hidden" class="qty-input" value="1" />
+          <span class="qty-unit"><%= p.unitType === 'pcs' ? t('шт', 'шт') : t('кг', 'кг') %></span>
+          <button type="button" class="qty-plus" aria-label="<%= t('Більше', 'Больше') %>">+</button>
+        </div>
+        <button type="button" class="qty-cancel" aria-label="<%= t('Скасувати', 'Отменить') %>">✕</button>
+      </div>
+      <button type="button" class="btn btn-primary qty-submit">
+        <%= t('Додати', 'Добавить') %> · <span class="qty-total"><%= p.price %></span> <%= t('грн', 'грн') %>
+      </button>
+    </div>
+  </div>
+</div>

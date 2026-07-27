@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Категорії — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Категорії</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin">← Адмін-панель</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <h2>Категорії (<%= categories.length %>) <a class="btn btn-primary" href="/admin/categories/new">+ Додати категорію</a></h2>
+      <table>
+        <tr><th>№</th><th>Фото</th><th>Іконка</th><th>Назва (UA)</th><th>Назва (RU)</th><th></th></tr>
+        <% categories.forEach(function(c) { %>
+          <tr>
+            <td><span class="slot-badge"><%= categorySlots[c.id] %></span> <span class="slot-badge"><%= categoryIconSlots[c.id] %></span></td>
+            <td><% if (c.image) { %><img class="thumb" src="<%= c.image %>" /><% } else { %><div class="thumb-empty">немає</div><% } %></td>
+            <td><% if (c.iconImage) { %><img class="thumb" src="<%= c.iconImage %>" style="border-radius:50%" /><% } else { %><div class="thumb-empty">немає</div><% } %></td>
+            <td><%= c.depth ? '— ' : '' %><%= c.name_ua %></td>
+            <td><%= c.depth ? '— ' : '' %><%= c.name_ru %></td>
+            <td class="row-actions">
+              <a class="btn btn-ghost" href="/admin/categories/<%= c.id %>/edit">Редагувати</a>
+              <form class="inline" method="POST" action="/admin/categories/<%= c.id %>/delete" onsubmit="return confirm('Видалити категорію та всі її товари?');">
+                <button type="submit" class="btn btn-danger">Видалити</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

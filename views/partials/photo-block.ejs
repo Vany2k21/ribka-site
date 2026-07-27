@@ -1,0 +1,10 @@
+<div class="photo-block <%= locals.cssClass || '' %>">
+  <% if (locals.image) { %>
+    <img src="<%= image %>" alt="<%= locals.alt || '' %>" loading="lazy" />
+  <% } else { %>
+    <div class="ph-placeholder" style="background: hsl(<%= (slot * 53) % 360 %>, 62%, 42%);">
+      <span class="ph-number"><%= slot %></span>
+      <span class="ph-text">Місце для фото №<%= slot %></span>
+    </div>
+  <% } %>
+</div>

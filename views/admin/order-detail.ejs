@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Замовлення #<%= order.id %> — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Замовлення #<%= order.id %></div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin/orders">← Усі замовлення</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+
+    <% var deliveryLabels = { pickup: 'Самовивіз в Києві', kyiv: 'Доставка по Києву', 'nova-poshta': 'Нова Пошта' }; %>
+    <% var paymentLabels = { cash: 'Готівкою при отриманні', bank: 'Банківський переказ' }; %>
+
+    <div class="admin-section">
+      <h2>Клієнт</h2>
+      <table>
+        <tr><td>Ім'я</td><td><%= order.firstName %> <%= order.lastName %></td></tr>
+        <tr><td>Телефон</td><td><a href="tel:<%= order.phone.replace(/\s+/g,'') %>"><%= order.phone %></a></td></tr>
+        <tr><td>Email</td><td><%= order.email %></td></tr>
+        <tr><td>Доставка</td><td><%= deliveryLabels[order.deliveryMethod] || order.deliveryMethod %></td></tr>
+        <tr><td>Оплата</td><td><%= paymentLabels[order.paymentMethod] || order.paymentMethod %></td></tr>
+        <% if (order.comment) { %><tr><td>Коментар</td><td><%= order.comment %></td></tr><% } %>
+        <tr><td>Дата</td><td><%= new Date(order.createdAt).toLocaleString('uk-UA') %></td></tr>
+      </table>
+    </div>
+
+    <div class="admin-section">
+      <h2>Статус замовлення</h2>
+      <form method="POST" action="/admin/orders/<%= order.id %>/status" class="status-form">
+        <select name="status">
+          <option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>В обробці</option>
+          <option value="packing" <%= order.status === 'packing' ? 'selected' : '' %>>Збирається</option>
+          <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>Відправлено</option>
+          <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>Клієнт відмовився</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Зберегти статус</button>
+      </form>
+    </div>
+
+    <div class="admin-section">
+      <h2>Товари (<%= order.items.length %>)</h2>
+      <% if (order.items.length === 0) { %>
+        <p class="hint">Усі товари видалено із замовлення.</p>
+      <% } else { %>
+        <table>
+          <tr><th>Фото</th><th>Назва</th><th>Ціна</th><th>К-сть</th><th>Разом</th><th>Наявність</th><th></th></tr>
+          <% order.items.forEach(function(i) { %>
+            <tr>
+              <td><% if (i.image) { %><img class="thumb" src="<%= i.image %>" /><% } else { %><div class="thumb-empty">немає</div><% } %></td>
+              <td><%= i.name_ua %></td>
+              <td><%= i.price %> грн</td>
+              <td><%= i.quantity %> <%= i.unitType === 'pcs' ? 'шт' : 'кг' %></td>
+              <td><%= i.price * i.quantity %> грн</td>
+              <td>
+                <form method="POST" action="/admin/orders/<%= order.id %>/item/<%= i.productId %>/availability" class="inline">
+                  <input type="hidden" name="available" value="<%= i.available ? '0' : '1' %>" />
+                  <button type="submit" class="status-badge <%= i.available ? 'status-shipped' : 'status-unavailable' %>">
+                    <%= i.available ? 'В наявності' : 'Немає в наявності' %>
+                  </button>
+                </form>
+              </td>
+              <td class="row-actions">
+                <form class="inline" method="POST" action="/admin/orders/<%= order.id %>/item/<%= i.productId %>/delete" onsubmit="return confirm('Видалити товар із замовлення?');">
+                  <button type="submit" class="btn btn-danger">Видалити</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </table>
+      <% } %>
+      <div class="order-total">Разом: <strong><%= order.total %> грн</strong></div>
+    </div>
+
+  </div>
+</body>
+</html>
