@@ -32,10 +32,13 @@ h1, h2, h3, .logo-text strong {
   padding: 0 20px;
 }
 @media (min-width: 1600px) {
-  .container { max-width: 1400px; }
+  .container { max-width: 1500px; }
 }
 @media (min-width: 1920px) {
-  .container { max-width: 1600px; }
+  .container { max-width: 1800px; }
+}
+@media (min-width: 2200px) {
+  .container { max-width: 94vw; }
 }
 
 
@@ -407,16 +410,19 @@ body { padding-top: 0; }
   margin: 24px auto 0;
   border-radius: 24px;
   overflow: hidden;
-  height: 480px;
+  height: 420px;
 }
 @media (min-width: 1600px) {
-  .hero { max-width: 1400px; }
+  .hero { max-width: 1500px; }
 }
 @media (min-width: 1920px) {
-  .hero { max-width: 1600px; }
+  .hero { max-width: 1800px; }
+}
+@media (min-width: 2200px) {
+  .hero { max-width: 94vw; }
 }
 @media (max-width: 720px) {
-  .hero { margin: 12px 12px 0; height: 380px; border-radius: 16px; }
+  .hero { margin: 12px 12px 0; height: 340px; border-radius: 16px; }
 }
 .hero-photo { position: absolute; inset: 0; }
 .hero-overlay {
