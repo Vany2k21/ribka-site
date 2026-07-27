@@ -6,33 +6,39 @@ const sharp = require('sharp');
 const UPLOAD_DIR = path.join(__dirname, '..', 'public', 'uploads');
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
-const MAX_DIMENSION = 1600;
-const JPEG_QUALITY = 78;
+const DEFAULT_MAX_DIMENSION = 1600;
+const DEFAULT_JPEG_QUALITY = 78;
 
-async function compressImage(filePath) {
+// Банер розтягується на всю ширину екрана — стискаємо делікатніше, ніж звичайні фото товарів.
+const HERO_MAX_DIMENSION = 2400;
+const HERO_JPEG_QUALITY = 88;
+
+async function compressImage(filePath, { maxDimension = DEFAULT_MAX_DIMENSION, jpegQuality = DEFAULT_JPEG_QUALITY } = {}) {
   const ext = path.extname(filePath).toLowerCase();
   if (!['.jpg', '.jpeg', '.png'].includes(ext)) return;
   const buffer = fs.readFileSync(filePath);
   let pipeline = sharp(buffer).resize({
-    width: MAX_DIMENSION,
-    height: MAX_DIMENSION,
+    width: maxDimension,
+    height: maxDimension,
     fit: 'inside',
     withoutEnlargement: true,
   });
-  pipeline = ext === '.png' ? pipeline.png({ quality: 80, compressionLevel: 9 }) : pipeline.jpeg({ quality: JPEG_QUALITY, mozjpeg: true });
+  pipeline = ext === '.png' ? pipeline.png({ quality: 80, compressionLevel: 9 }) : pipeline.jpeg({ quality: jpegQuality, mozjpeg: true });
   const output = await pipeline.toBuffer();
   if (output.length < buffer.length) fs.writeFileSync(filePath, output);
 }
 
 // Стискає всі щойно завантажені файли (після multer, до обробника роуту).
-async function processUploadedImages(req, res, next) {
-  try {
-    const files = req.file ? [req.file] : req.files ? Object.values(req.files).flat() : [];
-    for (const file of files) await compressImage(file.path);
-    next();
-  } catch (err) {
-    next(err);
-  }
+function processUploadedImages(options) {
+  return async function (req, res, next) {
+    try {
+      const files = req.file ? [req.file] : req.files ? Object.values(req.files).flat() : [];
+      for (const file of files) await compressImage(file.path, options);
+      next();
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 const storage = multer.diskStorage({
@@ -57,5 +63,6 @@ const upload = multer({
 });
 
 upload.processUploadedImages = processUploadedImages;
+upload.heroImageOptions = { maxDimension: HERO_MAX_DIMENSION, jpegQuality: HERO_JPEG_QUALITY };
 
 module.exports = upload;

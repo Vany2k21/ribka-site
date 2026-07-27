@@ -66,7 +66,7 @@ router.get('/settings', (req, res) => {
   res.render('admin/settings', { settings: db.getSettings(), heroSlot });
 });
 
-router.post('/settings', upload.single('heroImage'), upload.processUploadedImages, (req, res) => {
+router.post('/settings', upload.single('heroImage'), upload.processUploadedImages(upload.heroImageOptions), (req, res) => {
   const patch = { ...req.body };
   delete patch.phonesText;
 
@@ -130,7 +130,7 @@ const categoryImageUpload = upload.fields([
   { name: 'iconImage', maxCount: 1 },
 ]);
 
-router.post('/categories', categoryImageUpload, upload.processUploadedImages, (req, res) => {
+router.post('/categories', categoryImageUpload, upload.processUploadedImages(), (req, res) => {
   const category = db.createCategory(req.body);
   const patch = {};
   if (req.files && req.files.image) patch.image = '/uploads/' + req.files.image[0].filename;
@@ -145,7 +145,7 @@ router.get('/categories/:id/edit', (req, res) => {
   res.render('admin/category-form', { category, topLevelCategories: db.getTopLevelCategories() });
 });
 
-router.post('/categories/:id', categoryImageUpload, upload.processUploadedImages, (req, res) => {
+router.post('/categories/:id', categoryImageUpload, upload.processUploadedImages(), (req, res) => {
   const patch = { ...req.body };
   if (req.files && req.files.image) patch.image = '/uploads/' + req.files.image[0].filename;
   if (req.files && req.files.iconImage) patch.iconImage = '/uploads/' + req.files.iconImage[0].filename;
@@ -177,7 +177,7 @@ const productImageUpload = upload.fields([
   { name: 'galleryImages', maxCount: 8 },
 ]);
 
-router.post('/products', productImageUpload, upload.processUploadedImages, (req, res) => {
+router.post('/products', productImageUpload, upload.processUploadedImages(), (req, res) => {
   const product = db.createProduct(req.body);
   const patch = {};
   if (req.files && req.files.image) patch.image = '/uploads/' + req.files.image[0].filename;
@@ -194,7 +194,7 @@ router.get('/products/:id/edit', (req, res) => {
   res.render('admin/product-form', { product, categories: db.getCategoriesForSelect() });
 });
 
-router.post('/products/:id', productImageUpload, upload.processUploadedImages, (req, res) => {
+router.post('/products/:id', productImageUpload, upload.processUploadedImages(), (req, res) => {
   const patch = { ...req.body };
   delete patch.galleryImages;
   if (req.files && req.files.image) patch.image = '/uploads/' + req.files.image[0].filename;
