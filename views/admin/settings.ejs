@@ -37,9 +37,8 @@
           <div class="field full"><label>Текст «Про магазин» (UA)</label><textarea name="about_ua"><%= settings.about_ua %></textarea></div>
           <div class="field full"><label>Текст «Про магазин» (RU)</label><textarea name="about_ru"><%= settings.about_ru %></textarea></div>
           <div class="field full">
-            <label>Банер головної сторінки — фото-блок №<%= heroSlot %></label>
-            <% if (settings.heroImage) { %><img class="thumb" src="<%= settings.heroImage %>" style="margin-bottom:8px" /><% } %>
-            <input type="file" name="heroImage" accept="image/*" />
+            <label>Банер головної сторінки</label>
+            <p class="hint">Банер тепер керується окремо — фото й тексти для нього додаються в розділі <a href="/admin/hero-slides">«Слайди банера»</a>.</p>
           </div>
         </div>
         <div class="form-actions">

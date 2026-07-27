@@ -57,6 +57,7 @@ router.get('/', (req, res) => {
     categoriesCount: db.getCategories().length,
     productsCount: db.getProducts().length,
     promotionsCount: db.getPromotions().length,
+    heroSlidesCount: db.getHeroSlides().length,
   });
 });
 
@@ -271,6 +272,44 @@ router.post('/promotions/:id', (req, res) => {
 router.post('/promotions/:id/delete', (req, res) => {
   db.deletePromotion(req.params.id);
   res.redirect('/admin/promotions');
+});
+
+// --- Слайди банера на головній ---
+router.get('/hero-slides', (req, res) => {
+  res.render('admin/hero-slides', { slides: db.getHeroSlides() });
+});
+
+router.get('/hero-slides/new', (req, res) => {
+  res.render('admin/hero-slide-form', { slide: null });
+});
+
+router.post('/hero-slides', upload.single('image'), upload.processUploadedImages(upload.heroImageOptions), (req, res) => {
+  const slide = db.createHeroSlide(req.body);
+  if (req.file) db.updateHeroSlide(slide.id, { image: '/uploads/' + req.file.filename });
+  res.redirect('/admin/hero-slides');
+});
+
+router.get('/hero-slides/:id/edit', (req, res) => {
+  const slide = db.getHeroSlide(req.params.id);
+  if (!slide) return res.redirect('/admin/hero-slides');
+  res.render('admin/hero-slide-form', { slide });
+});
+
+router.post('/hero-slides/:id', upload.single('image'), upload.processUploadedImages(upload.heroImageOptions), (req, res) => {
+  const patch = { ...req.body };
+  if (req.file) patch.image = '/uploads/' + req.file.filename;
+  db.updateHeroSlide(req.params.id, patch);
+  res.redirect('/admin/hero-slides');
+});
+
+router.post('/hero-slides/:id/move', (req, res) => {
+  db.moveHeroSlide(req.params.id, req.body.direction);
+  res.redirect('/admin/hero-slides');
+});
+
+router.post('/hero-slides/:id/delete', (req, res) => {
+  db.deleteHeroSlide(req.params.id);
+  res.redirect('/admin/hero-slides');
 });
 
 module.exports = router;

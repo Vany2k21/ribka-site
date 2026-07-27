@@ -62,8 +62,8 @@
 (function () {
   var hero = document.querySelector('.hero');
   if (!hero) return;
-  var img = hero.querySelector('.hero-photo img');
-  if (!img) return;
+  var imgs = Array.prototype.slice.call(hero.querySelectorAll('.hero-photo img'));
+  if (!imgs.length) return;
 
   var mouseX = 0;
   var mouseY = 0;
@@ -72,7 +72,8 @@
     var scrollShift = window.scrollY * 0.15;
     var tx = mouseX * 12;
     var ty = scrollShift + mouseY * 12;
-    img.style.transform = 'translate3d(' + tx.toFixed(1) + 'px, ' + ty.toFixed(1) + 'px, 0) scale(1.08)';
+    var transform = 'translate3d(' + tx.toFixed(1) + 'px, ' + ty.toFixed(1) + 'px, 0) scale(1.08)';
+    imgs.forEach(function (img) { img.style.transform = transform; });
   }
 
   hero.addEventListener('mousemove', function (e) {
@@ -90,8 +91,47 @@
 
   window.addEventListener('scroll', update, { passive: true });
 
-  img.style.transition = 'transform 0.15s ease-out';
+  imgs.forEach(function (img) { img.style.transition = 'transform 0.15s ease-out'; });
   update();
+})();
+
+// Слайдер банера: автоперемикання + керування крапками
+(function () {
+  var hero = document.querySelector('.hero');
+  if (!hero) return;
+  var slides = Array.prototype.slice.call(hero.querySelectorAll('.hero-slide'));
+  var dots = Array.prototype.slice.call(hero.querySelectorAll('.hero-dot'));
+  if (slides.length < 2) return;
+
+  var AUTOPLAY_MS = 5000;
+  var current = 0;
+  var timer = null;
+
+  function showSlide(index) {
+    slides[current].classList.remove('active');
+    if (dots[current]) dots[current].classList.remove('active');
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    if (dots[current]) dots[current].classList.add('active');
+  }
+
+  function nextSlide() {
+    showSlide(current + 1);
+  }
+
+  function restartAutoplay() {
+    if (timer) clearInterval(timer);
+    timer = setInterval(nextSlide, AUTOPLAY_MS);
+  }
+
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () {
+      showSlide(i);
+      restartAutoplay();
+    });
+  });
+
+  restartAutoplay();
 })();
 
 // Прозора шапка над банером, стає суцільною при прокрутці

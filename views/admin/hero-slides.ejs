@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Слайди банера — Адмін-панель</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="icon" type="image/png" href="/uploads/favicon.png" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title">Слайди банера</div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a class="site-link" href="/admin">← Адмін-панель</a>
+      <form method="POST" action="/admin/logout"><button type="submit">Вийти</button></form>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <h2>Слайди (<%= slides.length %>) <a class="btn btn-primary" href="/admin/hero-slides/new">+ Додати слайд</a></h2>
+      <p class="hint">Слайди показуються на банері головної сторінки по черзі, з автоматичною зміною кожні кілька секунд. Перший у списку — перший на сайті.</p>
+      <% if (slides.length === 0) { %>
+        <p class="hint">Слайдів поки немає — банер на сайті буде порожнім, поки не додаси хоча б один.</p>
+      <% } else { %>
+        <table>
+          <tr><th>Фото</th><th>Заголовок (UA)</th><th>Підзаголовок (UA)</th><th></th></tr>
+          <% slides.forEach(function(s, i) { %>
+            <tr>
+              <td><% if (s.image) { %><img class="thumb" src="<%= s.image %>" /><% } else { %>—<% } %></td>
+              <td><%= s.title_ua %></td>
+              <td><%= s.subtitle_ua %></td>
+              <td class="row-actions">
+                <form class="inline" method="POST" action="/admin/hero-slides/<%= s.id %>/move">
+                  <input type="hidden" name="direction" value="up" />
+                  <button type="submit" class="btn btn-ghost" <%= i === 0 ? 'disabled' : '' %>>↑</button>
+                </form>
+                <form class="inline" method="POST" action="/admin/hero-slides/<%= s.id %>/move">
+                  <input type="hidden" name="direction" value="down" />
+                  <button type="submit" class="btn btn-ghost" <%= i === slides.length - 1 ? 'disabled' : '' %>>↓</button>
+                </form>
+                <a class="btn btn-ghost" href="/admin/hero-slides/<%= s.id %>/edit">Редагувати</a>
+                <form class="inline" method="POST" action="/admin/hero-slides/<%= s.id %>/delete" onsubmit="return confirm('Видалити слайд?');">
+                  <button type="submit" class="btn btn-danger">Видалити</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </table>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

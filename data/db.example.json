@@ -516,5 +516,19 @@
       "createdAt": "2026-07-23T11:42:46.751Z"
     }
   ],
-  "nextPromotionId": 2
+  "nextPromotionId": 2,
+  "heroSlides": [
+    {
+      "id": 1,
+      "image": "/uploads/img_1784742399831_473976.jpg",
+      "title_ua": "Good Fish",
+      "title_ru": "Good Fish",
+      "subtitle_ua": "Риба та морепродукти з доставкою",
+      "subtitle_ru": "Рыба и морепродукты с доставкой",
+      "buttonText_ua": "Переглянути каталог",
+      "buttonText_ru": "Смотреть каталог",
+      "buttonLink": "#popular"
+    }
+  ],
+  "nextHeroSlideId": 2
 }

@@ -461,6 +461,63 @@ function deletePromotion(id) {
   write(data);
 }
 
+// --- Слайди банера на головній ---
+function getHeroSlides() {
+  return read().heroSlides || [];
+}
+
+function getHeroSlide(id) {
+  return (read().heroSlides || []).find((s) => s.id === Number(id));
+}
+
+function createHeroSlide({ title_ua, title_ru, subtitle_ua, subtitle_ru, buttonText_ua, buttonText_ru, buttonLink }) {
+  const data = read();
+  if (!data.heroSlides) data.heroSlides = [];
+  if (!data.nextHeroSlideId) data.nextHeroSlideId = 1;
+  const id = data.nextHeroSlideId++;
+  const slide = {
+    id,
+    image: null,
+    title_ua: title_ua || '',
+    title_ru: title_ru || '',
+    subtitle_ua: subtitle_ua || '',
+    subtitle_ru: subtitle_ru || '',
+    buttonText_ua: buttonText_ua || '',
+    buttonText_ru: buttonText_ru || '',
+    buttonLink: buttonLink || '#popular',
+  };
+  data.heroSlides.push(slide);
+  write(data);
+  return slide;
+}
+
+function updateHeroSlide(id, patch) {
+  const data = read();
+  if (!data.heroSlides) data.heroSlides = [];
+  const idx = data.heroSlides.findIndex((s) => s.id === Number(id));
+  if (idx === -1) return null;
+  data.heroSlides[idx] = { ...data.heroSlides[idx], ...patch };
+  write(data);
+  return data.heroSlides[idx];
+}
+
+function deleteHeroSlide(id) {
+  const data = read();
+  data.heroSlides = (data.heroSlides || []).filter((s) => s.id !== Number(id));
+  write(data);
+}
+
+function moveHeroSlide(id, direction) {
+  const data = read();
+  const slides = data.heroSlides || [];
+  const idx = slides.findIndex((s) => s.id === Number(id));
+  if (idx === -1) return;
+  const swapWith = direction === 'up' ? idx - 1 : idx + 1;
+  if (swapWith < 0 || swapWith >= slides.length) return;
+  [slides[idx], slides[swapWith]] = [slides[swapWith], slides[idx]];
+  write(data);
+}
+
 function slugify(str) {
   const map = {
     а: 'a', б: 'b', в: 'v', г: 'h', д: 'd', е: 'e', є: 'ie', ж: 'zh', з: 'z',
@@ -522,4 +579,10 @@ module.exports = {
   createPromotion,
   updatePromotion,
   deletePromotion,
+  getHeroSlides,
+  getHeroSlide,
+  createHeroSlide,
+  updateHeroSlide,
+  deleteHeroSlide,
+  moveHeroSlide,
 };

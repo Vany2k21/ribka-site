@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= slide ? 'Редагування слайду' : 'Новий слайд' %></title>
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="icon" type="image/png" href="/uploads/favicon.png" />
+</head>
+<body>
+  <div class="admin-header">
+    <div class="title"><%= slide ? 'Редагування слайду' : 'Новий слайд' %></div>
+    <a class="site-link" href="/admin/hero-slides">← Назад до слайдів</a>
+  </div>
+  <div class="admin-wrap">
+    <div class="admin-section">
+      <form method="POST" action="<%= slide ? '/admin/hero-slides/' + slide.id : '/admin/hero-slides' %>" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div class="field full">
+            <label>Фото слайду (на всю ширину банера)</label>
+            <% if (slide && slide.image) { %><img class="thumb" src="<%= slide.image %>" style="margin-bottom:8px" /><% } %>
+            <input type="file" name="image" accept="image/*" <%= slide ? '' : 'required' %> />
+          </div>
+          <div class="field"><label>Заголовок (UA)</label><input type="text" name="title_ua" value="<%= slide ? slide.title_ua : '' %>" /></div>
+          <div class="field"><label>Заголовок (RU)</label><input type="text" name="title_ru" value="<%= slide ? slide.title_ru : '' %>" /></div>
+          <div class="field"><label>Підзаголовок (UA)</label><input type="text" name="subtitle_ua" value="<%= slide ? slide.subtitle_ua : '' %>" /></div>
+          <div class="field"><label>Підзаголовок (RU)</label><input type="text" name="subtitle_ru" value="<%= slide ? slide.subtitle_ru : '' %>" /></div>
+          <div class="field"><label>Текст кнопки (UA)</label><input type="text" name="buttonText_ua" value="<%= slide ? slide.buttonText_ua : 'Переглянути каталог' %>" /></div>
+          <div class="field"><label>Текст кнопки (RU)</label><input type="text" name="buttonText_ru" value="<%= slide ? slide.buttonText_ru : 'Смотреть каталог' %>" /></div>
+          <div class="field full">
+            <label>Куди веде кнопка</label>
+            <input type="text" name="buttonLink" value="<%= slide ? slide.buttonLink : '#popular' %>" />
+            <p class="hint">За замовчуванням #popular — це прокручує до "Популярних категорій" на цій же сторінці. Можна вказати посилання на конкретну категорію, напр. /category/ikra-3</p>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Зберегти</button>
+          <a class="btn btn-ghost" href="/admin/hero-slides">Скасувати</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

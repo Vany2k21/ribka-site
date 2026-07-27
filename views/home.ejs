@@ -17,14 +17,29 @@
 <main>
 
   <section class="hero">
-    <%- include('partials/photo-block', { image: settings.heroImage, slot: heroSlot, alt: 'Банер', cssClass: 'hero-photo' }) %>
-    <div class="hero-overlay">
-      <div class="container">
-        <h1><%= t(settings.siteName_ua, settings.siteName_ru) %></h1>
-        <p><%= t(settings.tagline_ua, settings.tagline_ru) %></p>
-        <a href="#popular" class="btn btn-primary"><%= t('Переглянути каталог', 'Смотреть каталог') %></a>
-      </div>
-    </div>
+    <% if (heroSlides.length === 0) { %>
+      <%- include('partials/photo-block', { image: null, slot: heroSlot, alt: 'Банер', cssClass: 'hero-photo' }) %>
+    <% } else { %>
+      <% heroSlides.forEach(function(s, i) { %>
+        <div class="hero-slide <%= i === 0 ? 'active' : '' %>" data-index="<%= i %>">
+          <%- include('partials/photo-block', { image: s.image, slot: heroSlot, alt: f(s, 'title'), cssClass: 'hero-photo' }) %>
+          <div class="hero-overlay">
+            <div class="container">
+              <% if (f(s, 'title')) { %><h1><%= f(s, 'title') %></h1><% } %>
+              <% if (f(s, 'subtitle')) { %><p><%= f(s, 'subtitle') %></p><% } %>
+              <% if (f(s, 'buttonText')) { %><a href="<%= s.buttonLink || '#popular' %>" class="btn btn-primary"><%= f(s, 'buttonText') %></a><% } %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+      <% if (heroSlides.length > 1) { %>
+        <div class="hero-dots">
+          <% heroSlides.forEach(function(s, i) { %>
+            <button type="button" class="hero-dot <%= i === 0 ? 'active' : '' %>" data-index="<%= i %>" aria-label="Слайд <%= i + 1 %>"></button>
+          <% }) %>
+        </div>
+      <% } %>
+    <% } %>
   </section>
 
   <div class="sunken-panel">

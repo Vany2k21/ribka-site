@@ -62,6 +62,7 @@ router.get('/', (req, res) => {
     settings,
     categories: categoryTree,
     heroSlot,
+    heroSlides: db.getHeroSlides(),
     popularCategories,
     bestsellerProducts,
   });
