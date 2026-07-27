@@ -32,28 +32,6 @@ h1, h2, h3, .logo-text strong {
   padding: 0 20px;
 }
 
-/* Зовнішня "рамка" — та сама біла область зверху/з боків, що й сторінка,
-   але тепер вона частина одного блоку з панеллю (не окремий статичний
-   відступ), тому рухається разом з нею як одне ціле під час скролу. */
-.sunken-panel {
-  position: relative;
-  z-index: 1;
-  background: var(--color-bg);
-  padding: 36px 34px;
-}
-.sunken-panel-inner {
-  border-radius: 28px;
-  padding: 6px 0;
-  background: #e9edf2;
-  box-shadow:
-    inset 0 3px 0 rgba(255, 255, 255, 0.7),
-    inset 0 18px 22px -14px rgba(9, 63, 97, 0.45),
-    inset 0 -18px 22px -14px rgba(9, 63, 97, 0.4);
-}
-@media (max-width: 720px) {
-  .sunken-panel { padding: 16px 10px; }
-  .sunken-panel-inner { border-radius: 18px; }
-}
 
 /* --- Header --- */
 body { padding-top: 0; }
@@ -83,36 +61,6 @@ body { padding-top: 0; }
   padding: 9px 24px;
 }
 
-/* Прозора шапка над банером (лише на сторінках з .hero, поки вгорі сторінки) */
-.site-header.header-transparent {
-  box-shadow: none;
-}
-.site-header.header-transparent::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.15));
-  z-index: -1;
-  pointer-events: none;
-}
-.site-header.header-transparent .header-bar,
-.site-header.header-transparent .main-nav {
-  background: transparent;
-}
-.site-header.header-transparent .header-bar-inner,
-.site-header.header-transparent .nav-inner {
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-}
-.site-header.header-transparent .dropdown-panel {
-  text-shadow: none;
-}
-.site-header.header-transparent .search-form {
-  background: rgba(255,255,255,0.22);
-  border: 1px solid rgba(255,255,255,0.4);
-}
-.site-header.header-transparent .icon-btn {
-  border-color: rgba(255,255,255,0.6);
-}
 .lang-switch { display: flex; gap: 8px; align-items: center; flex-shrink: 0; font-size: 13px; font-weight: 600; }
 .lang-switch a { color: #cfe6f5; padding: 2px 2px; transition: color 0.15s ease; }
 .lang-switch a:hover { color: var(--color-accent); }
@@ -447,7 +395,17 @@ body { padding-top: 0; }
 }
 
 /* --- Hero --- */
-.hero { position: sticky; top: 0; z-index: 0; height: 560px; overflow: hidden; }
+.hero {
+  position: relative;
+  max-width: 1180px;
+  margin: 24px auto 0;
+  border-radius: 24px;
+  overflow: hidden;
+  height: 480px;
+}
+@media (max-width: 720px) {
+  .hero { margin: 12px 12px 0; height: 380px; border-radius: 16px; }
+}
 .hero-photo { position: absolute; inset: 0; }
 .hero-overlay {
   position: relative;
@@ -1511,7 +1469,6 @@ body.menu-open, body.cart-open { overflow: hidden; }
     display: none;
   }
   .logo-text small { display: none; }
-  .hero { height: 420px; }
   .hero-overlay h1 { font-size: 26px; }
 
   .catalog { padding: 30px 16px; }

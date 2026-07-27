@@ -58,43 +58,6 @@
   });
 })();
 
-// Parallax-ефект банера: реагує на прокрутку сторінки та рух миші
-(function () {
-  var hero = document.querySelector('.hero');
-  if (!hero) return;
-  var imgs = Array.prototype.slice.call(hero.querySelectorAll('.hero-photo img'));
-  if (!imgs.length) return;
-
-  var mouseX = 0;
-  var mouseY = 0;
-
-  function update() {
-    var scrollShift = window.scrollY * 0.15;
-    var tx = mouseX * 12;
-    var ty = scrollShift + mouseY * 12;
-    var transform = 'translate3d(' + tx.toFixed(1) + 'px, ' + ty.toFixed(1) + 'px, 0) scale(1.08)';
-    imgs.forEach(function (img) { img.style.transform = transform; });
-  }
-
-  hero.addEventListener('mousemove', function (e) {
-    var rect = hero.getBoundingClientRect();
-    mouseX = (e.clientX - rect.left) / rect.width - 0.5;
-    mouseY = (e.clientY - rect.top) / rect.height - 0.5;
-    update();
-  });
-
-  hero.addEventListener('mouseleave', function () {
-    mouseX = 0;
-    mouseY = 0;
-    update();
-  });
-
-  window.addEventListener('scroll', update, { passive: true });
-
-  imgs.forEach(function (img) { img.style.transition = 'transform 0.15s ease-out'; });
-  update();
-})();
-
 // Слайдер банера: автоперемикання + керування крапками
 (function () {
   var hero = document.querySelector('.hero');
@@ -134,30 +97,16 @@
   restartAutoplay();
 })();
 
-// Прозора шапка над банером, стає суцільною при прокрутці
+// Відступ під фіксовану шапку, щоб контент не ховався під нею
 (function () {
   var header = document.querySelector('.site-header');
   if (!header) return;
-  var hasHero = document.body.classList.contains('has-hero');
 
   function applyBodyPadding() {
-    if (!hasHero) {
-      document.body.style.paddingTop = header.offsetHeight + 'px';
-    }
-  }
-
-  function updateHeaderState() {
-    if (!hasHero) return;
-    if (window.scrollY < 40) {
-      header.classList.add('header-transparent');
-    } else {
-      header.classList.remove('header-transparent');
-    }
+    document.body.style.paddingTop = header.offsetHeight + 'px';
   }
 
   applyBodyPadding();
-  updateHeaderState();
-  window.addEventListener('scroll', updateHeaderState, { passive: true });
   window.addEventListener('resize', applyBodyPadding);
 })();
 
