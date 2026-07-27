@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const compression = require('compression');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const path = require('path');
@@ -15,9 +16,12 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '..', 'views'));
 
+app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// Завантажені файли мають унікальні імена (timestamp у назві) — кешуємо надовго.
+app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads'), { maxAge: '30d', immutable: true }));
+app.use(express.static(path.join(__dirname, '..', 'public'), { maxAge: '1h' }));
 
 app.use(
   session({
