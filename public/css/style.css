@@ -406,12 +406,23 @@ body { padding-top: 0; }
 /* --- Hero --- */
 .hero {
   position: relative;
-  width: 100%;
+  max-width: 1180px;
+  margin: 24px auto 0;
+  border-radius: 24px;
   overflow: hidden;
   height: 420px;
 }
+@media (min-width: 1600px) {
+  .hero { max-width: 1500px; }
+}
+@media (min-width: 1920px) {
+  .hero { max-width: 1800px; }
+}
+@media (min-width: 2200px) {
+  .hero { max-width: 94vw; }
+}
 @media (max-width: 720px) {
-  .hero { height: 340px; }
+  .hero { margin: 12px 12px 0; height: 340px; border-radius: 16px; }
 }
 .hero-photo { position: absolute; inset: 0; }
 .hero-overlay {
