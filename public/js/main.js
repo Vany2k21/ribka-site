@@ -522,3 +522,53 @@ var GoodFishCart = (function () {
     window.history.replaceState({}, '', url);
   });
 })();
+
+// Рибка-брелок: гойдається як маятник, коли скролиш сторінку
+(function () {
+  var charm = document.querySelector('.fish-charm-icon');
+  if (!charm) return;
+
+  var angle = 0;
+  var angularVelocity = 0;
+  var lastScrollY = window.scrollY;
+  var settled = true;
+
+  var STIFFNESS = 0.012;
+  var DAMPING = 0.92;
+  var SCROLL_SENSITIVITY = 0.18;
+  var MAX_ANGLE = 16;
+  var REST_THRESHOLD = 0.05;
+
+  function onScroll() {
+    var currentY = window.scrollY;
+    var delta = currentY - lastScrollY;
+    lastScrollY = currentY;
+    angularVelocity += delta * SCROLL_SENSITIVITY;
+    if (settled) {
+      settled = false;
+      requestAnimationFrame(tick);
+    }
+  }
+
+  function tick() {
+    var restoring = -angle * STIFFNESS;
+    angularVelocity += restoring;
+    angularVelocity *= DAMPING;
+    angle += angularVelocity;
+    if (angle > MAX_ANGLE) { angle = MAX_ANGLE; angularVelocity *= -0.4; }
+    if (angle < -MAX_ANGLE) { angle = -MAX_ANGLE; angularVelocity *= -0.4; }
+
+    charm.style.transform = 'rotate(' + angle.toFixed(2) + 'deg)';
+
+    if (Math.abs(angle) < REST_THRESHOLD && Math.abs(angularVelocity) < REST_THRESHOLD) {
+      angle = 0;
+      angularVelocity = 0;
+      charm.style.transform = '';
+      settled = true;
+      return;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
