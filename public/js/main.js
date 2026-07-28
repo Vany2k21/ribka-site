@@ -523,71 +523,12 @@ var GoodFishCart = (function () {
   });
 })();
 
-// Рибка-брелок: гойдається як маятник, коли скролиш сторінку
-(function () {
-  var charm = document.querySelector('.fish-charm-icon');
-  if (!charm) return;
-
-  var angle = 0;
-  var angularVelocity = 0;
-  var lastScrollY = window.scrollY;
-  var settled = true;
-
-  var STIFFNESS = 0.012;
-  var DAMPING = 0.92;
-  var SCROLL_SENSITIVITY = 0.18;
-  var MAX_ANGLE = 16;
-  var REST_THRESHOLD = 0.05;
-
-  function onScroll() {
-    var currentY = window.scrollY;
-    var delta = currentY - lastScrollY;
-    lastScrollY = currentY;
-    angularVelocity += delta * SCROLL_SENSITIVITY;
-    if (settled) {
-      settled = false;
-      requestAnimationFrame(tick);
-    }
-  }
-
-  function tick() {
-    var restoring = -angle * STIFFNESS;
-    angularVelocity += restoring;
-    angularVelocity *= DAMPING;
-    angle += angularVelocity;
-    if (angle > MAX_ANGLE) { angle = MAX_ANGLE; angularVelocity *= -0.4; }
-    if (angle < -MAX_ANGLE) { angle = -MAX_ANGLE; angularVelocity *= -0.4; }
-
-    charm.style.transform = 'rotate(' + angle.toFixed(2) + 'deg)';
-
-    if (Math.abs(angle) < REST_THRESHOLD && Math.abs(angularVelocity) < REST_THRESHOLD) {
-      angle = 0;
-      angularVelocity = 0;
-      charm.style.transform = '';
-      settled = true;
-      return;
-    }
-    requestAnimationFrame(tick);
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-})();
-
 // Преміальна бірка на шапці: фізика гойдання від швидкості скролу (GSAP)
 (function () {
   var tag = document.getElementById('brandTag');
   if (!tag || typeof gsap === 'undefined') return;
 
   var img = tag.querySelector('.brand-tag-img');
-  var header = document.querySelector('.site-header');
-
-  function positionTag() {
-    if (!header) return;
-    var overlap = 14; // на стільки px мотузка "заходить" під нижній край шапки
-    tag.style.top = Math.max(header.offsetHeight - overlap, 0) + 'px';
-  }
-  positionTag();
-  window.addEventListener('resize', positionTag);
 
   var angle = 0;
   var angularVelocity = 0;
@@ -595,9 +536,11 @@ var GoodFishCart = (function () {
   var lastTime = performance.now();
   var isHovering = false;
 
-  var STIFFNESS = 0.02;
-  var DAMPING = 0.9;
-  var SCROLL_SENSITIVITY = 3.2;
+  // Фізика реалістичного маятника: чим "жорсткіша" мотузка (STIFFNESS) і менше
+  // тертя (DAMPING ближче до 1), тим довше й плавніше загасають коливання.
+  var STIFFNESS = 0.006;
+  var DAMPING = 0.965;
+  var SCROLL_SENSITIVITY = 0.9;
   var MAX_ANGLE = 8;
 
   var setRotation = gsap.quickSetter(img, 'rotation', 'deg');
@@ -609,7 +552,10 @@ var GoodFishCart = (function () {
     var velocity = (currentY - lastScrollY) / dt;
     lastScrollY = currentY;
     lastTime = now;
-    angularVelocity += velocity * SCROLL_SENSITIVITY;
+    // Клемп швидкості, щоб різкий "телепорт" скролу (напр. клік по скролбару)
+    // не жбурляв бірку миттєво в стелю кута.
+    var kick = Math.max(Math.min(velocity, 6), -6) * SCROLL_SENSITIVITY;
+    angularVelocity += kick;
   }
   window.addEventListener('scroll', onScroll, { passive: true });
 
@@ -619,8 +565,10 @@ var GoodFishCart = (function () {
     angularVelocity += restoring;
     angularVelocity *= DAMPING;
     angle += angularVelocity;
-    if (angle > MAX_ANGLE) { angle = MAX_ANGLE; angularVelocity *= -0.3; }
-    if (angle < -MAX_ANGLE) { angle = -MAX_ANGLE; angularVelocity *= -0.3; }
+    // М'яка межа: гасимо швидкість, що штовхає далі за межу, замість
+    // штучного "відскоку" — так природніше для мотузки, а не пружини.
+    if (angle > MAX_ANGLE) { angle = MAX_ANGLE; if (angularVelocity > 0) angularVelocity = 0; }
+    if (angle < -MAX_ANGLE) { angle = -MAX_ANGLE; if (angularVelocity < 0) angularVelocity = 0; }
     setRotation(angle);
   });
 

@@ -1497,22 +1497,23 @@ body.menu-open, body.cart-open { overflow: hidden; }
 }
 
 /* --- Преміальна бірка на шапці (desktop only) ---
-   Мотузка "заходить" за шапку через нижчий z-index, ніж .site-header (100).
+   Заклепка лежить ПОВЕРХ шапки (z-index вищий, ніж .site-header),
+   тому виглядає, ніби прикріплена прямо в неї, а не ховається за нею.
    Щоб вимкнути: видали блок .brand-tag з partials/header.ejs. */
 .brand-tag {
   position: fixed;
-  top: 78px; /* фолбек, поки JS не порахує точну висоту шапки */
+  top: 30px;
   right: 64px;
-  z-index: 99;
-  width: 92px;
+  z-index: 101;
+  width: 62px;
   display: block;
   cursor: pointer;
-  transform-origin: 50% 0%;
 }
 .brand-tag-img {
   display: block;
   width: 100%;
   height: auto;
+  transform-origin: 50% 4%;
   filter: drop-shadow(0 10px 16px rgba(9,63,97,0.28));
   user-select: none;
   -webkit-user-drag: none;
