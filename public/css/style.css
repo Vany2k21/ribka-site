@@ -415,7 +415,8 @@ body { padding-top: 0; }
 @media (max-width: 720px) {
   .hero { width: calc(100% - 24px); height: 340px; border-radius: 16px; }
 }
-.hero-photo { position: absolute; inset: 0; }
+.hero-photo { position: absolute; inset: 0; background: var(--color-primary-dark); }
+.hero-photo img { object-fit: contain; }
 .hero-overlay {
   position: relative;
   height: 100%;

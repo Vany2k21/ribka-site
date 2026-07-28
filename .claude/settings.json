@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"/c/Users/Ivan/Projects/ribka-site\" && node server/server.js)",
+      "Bash(cd \"/c/Users/Ivan/Projects/ribka-site\" && node -c *)",
+      "Bash(cd \"C:\\Users\\Ivan\\Projects\\ribka-site\" && node -c *)",
+      "Bash(cd \"C:\\Users\\Ivan\\Projects\\ribka-site\" && node server/server.js)",
+      "mcp__Claude_Browser__get_page_text",
+      "mcp__Claude_Browser__read_page",
+      "mcp__Claude_Browser__read_network_requests",
+      "mcp__Claude_Browser__read_console_messages",
+      "mcp__Claude_Browser__find"
+    ]
+  }
+}
