@@ -572,3 +572,77 @@ var GoodFishCart = (function () {
 
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
+
+// Преміальна бірка на шапці: фізика гойдання від швидкості скролу (GSAP)
+(function () {
+  var tag = document.getElementById('brandTag');
+  if (!tag || typeof gsap === 'undefined') return;
+
+  var img = tag.querySelector('.brand-tag-img');
+  var header = document.querySelector('.site-header');
+
+  function positionTag() {
+    if (!header) return;
+    var overlap = 14; // на стільки px мотузка "заходить" під нижній край шапки
+    tag.style.top = Math.max(header.offsetHeight - overlap, 0) + 'px';
+  }
+  positionTag();
+  window.addEventListener('resize', positionTag);
+
+  var angle = 0;
+  var angularVelocity = 0;
+  var lastScrollY = window.scrollY;
+  var lastTime = performance.now();
+  var isHovering = false;
+
+  var STIFFNESS = 0.02;
+  var DAMPING = 0.9;
+  var SCROLL_SENSITIVITY = 3.2;
+  var MAX_ANGLE = 8;
+
+  var setRotation = gsap.quickSetter(img, 'rotation', 'deg');
+
+  function onScroll() {
+    var currentY = window.scrollY;
+    var now = performance.now();
+    var dt = Math.max(now - lastTime, 1);
+    var velocity = (currentY - lastScrollY) / dt;
+    lastScrollY = currentY;
+    lastTime = now;
+    angularVelocity += velocity * SCROLL_SENSITIVITY;
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  gsap.ticker.add(function () {
+    if (isHovering) return;
+    var restoring = -angle * STIFFNESS;
+    angularVelocity += restoring;
+    angularVelocity *= DAMPING;
+    angle += angularVelocity;
+    if (angle > MAX_ANGLE) { angle = MAX_ANGLE; angularVelocity *= -0.3; }
+    if (angle < -MAX_ANGLE) { angle = -MAX_ANGLE; angularVelocity *= -0.3; }
+    setRotation(angle);
+  });
+
+  // Легкий випадковий рух у стані спокою — щоб бірка виглядала "живою"
+  function scheduleIdle() {
+    var delay = 8000 + Math.random() * 7000;
+    setTimeout(function () {
+      if (!isHovering) angularVelocity += (Math.random() - 0.5) * 1.6;
+      scheduleIdle();
+    }, delay);
+  }
+  scheduleIdle();
+
+  tag.addEventListener('mouseenter', function () {
+    isHovering = true;
+    gsap.to(img, { rotation: 2, y: -2, duration: 0.3, ease: 'power2.out' });
+    gsap.to(img, { filter: 'drop-shadow(0 16px 22px rgba(9,63,97,0.4))', duration: 0.3 });
+  });
+  tag.addEventListener('mouseleave', function () {
+    isHovering = false;
+    angle = 2;
+    gsap.to(img, { y: 0, duration: 0.3, ease: 'power2.out' });
+    gsap.to(img, { filter: 'drop-shadow(0 10px 16px rgba(9,63,97,0.28))', duration: 0.3 });
+  });
+})();
