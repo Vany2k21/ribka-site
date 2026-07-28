@@ -421,7 +421,7 @@ body { padding-top: 0; }
   height: 100%;
   display: flex;
   align-items: flex-end;
-  padding-bottom: 44px;
+  padding-bottom: 64px;
   background: linear-gradient(90deg, rgba(9,63,97,0.75) 0%, rgba(9,63,97,0.35) 60%, rgba(9,63,97,0.1) 100%);
 }
 .hero-overlay .container { width: 100%; margin: 0; max-width: 560px; }
