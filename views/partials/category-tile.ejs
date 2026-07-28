@@ -5,10 +5,12 @@
       <%- include('photo-block', { image: category.iconImage, slot: category.iconSlot, alt: f(category, 'name') + ' іконка', cssClass: 'category-tile-icon-photo' }) %>
     </div>
     <div class="category-tile-overlay">
-      <span class="category-tile-name"><%= f(category, 'name') %></span>
-      <% if (f(category, 'desc')) { %>
-        <p class="category-tile-desc"><%= f(category, 'desc') %></p>
-      <% } %>
+      <div class="category-tile-glass">
+        <span class="category-tile-name"><%= f(category, 'name') %></span>
+        <% if (f(category, 'desc')) { %>
+          <p class="category-tile-desc"><%= f(category, 'desc') %></p>
+        <% } %>
+      </div>
       <span class="category-tile-cta"><%= t('Перейти', 'Перейти') %> →</span>
     </div>
   </div>
