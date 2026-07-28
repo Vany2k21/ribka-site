@@ -1495,30 +1495,3 @@ body.menu-open, body.cart-open { overflow: hidden; }
   }
   .catalog-sidebar-title { display: none; }
 }
-
-/* --- Преміальна бірка на шапці (desktop only) ---
-   Заклепка лежить ПОВЕРХ шапки (z-index вищий, ніж .site-header),
-   тому виглядає, ніби прикріплена прямо в неї, а не ховається за нею.
-   Щоб вимкнути: видали блок .brand-tag з partials/header.ejs. */
-.brand-tag {
-  position: fixed;
-  top: 30px;
-  right: 64px;
-  z-index: 101;
-  width: 62px;
-  display: block;
-  cursor: pointer;
-}
-.brand-tag-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transform-origin: 50% 4%;
-  filter: drop-shadow(0 10px 16px rgba(9,63,97,0.28));
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-@media (max-width: 1024px) {
-  .brand-tag { display: none; }
-}
