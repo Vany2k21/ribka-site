@@ -51,13 +51,11 @@
       <% if (popularCategories.length === 0) { %>
         <p class="empty-note"><%= t('Категорії незабаром з’являться.', 'Категории скоро появятся.') %></p>
       <% } else { %>
-        <% chunk(popularCategories, 3).forEach(function(group) { %>
-          <div class="category-tiles-grid">
-            <% group.forEach(function(c) { %>
-              <%- include('partials/category-tile', { category: c }) %>
-            <% }) %>
-          </div>
-        <% }) %>
+        <div class="category-tiles-grid">
+          <% popularCategories.forEach(function(c) { %>
+            <%- include('partials/category-tile', { category: c }) %>
+          <% }) %>
+        </div>
       <% } %>
     </section>
 
@@ -69,13 +67,11 @@
       <% if (bestsellerProducts.length === 0) { %>
         <p class="empty-note"><%= t('Товари незабаром з’являться.', 'Товары скоро появятся.') %></p>
       <% } else { %>
-        <% chunk(bestsellerProducts, 3).forEach(function(group) { %>
-          <div class="products-grid">
-            <% group.forEach(function(p) { %>
-              <%- include('partials/product-card', { p: p }) %>
-            <% }) %>
-          </div>
-        <% }) %>
+        <div class="products-grid">
+          <% bestsellerProducts.forEach(function(p) { %>
+            <%- include('partials/product-card', { p: p }) %>
+          <% }) %>
+        </div>
       <% } %>
     </section>
 
