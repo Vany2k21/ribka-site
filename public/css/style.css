@@ -421,12 +421,12 @@ body { padding-top: 0; }
   height: 100%;
   display: flex;
   align-items: flex-end;
-  padding-bottom: 64px;
+  padding-bottom: 44px;
   background: linear-gradient(90deg, rgba(9,63,97,0.75) 0%, rgba(9,63,97,0.35) 60%, rgba(9,63,97,0.1) 100%);
 }
 .hero-overlay .container { width: 100%; margin: 0; max-width: 560px; }
 .hero-overlay h1 { color: #fff; font-size: 38px; font-weight: 800; line-height: 1.15; margin: 0 0 10px; }
-.hero-overlay p { color: #e6f2fa; font-size: 16px; margin: 0 0 22px; }
+.hero-overlay p { color: #e6f2fa; font-size: 16px; margin: 0 0 62px; }
 
 /* --- Слайдер банера (кілька слайдів) --- */
 .hero-slide {
