@@ -546,10 +546,10 @@ var GoodFishCart = (function () {
     }
 
     prevBtn.addEventListener('click', function () {
-      track.scrollBy({ left: -pageWidth() * 3, behavior: 'smooth' });
+      track.scrollBy({ left: -pageWidth(), behavior: 'smooth' });
     });
     nextBtn.addEventListener('click', function () {
-      track.scrollBy({ left: pageWidth() * 3, behavior: 'smooth' });
+      track.scrollBy({ left: pageWidth(), behavior: 'smooth' });
     });
 
     track.addEventListener('scroll', updateButtons, { passive: true });
