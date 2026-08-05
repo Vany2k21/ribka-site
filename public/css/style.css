@@ -785,17 +785,55 @@ body { padding-top: 0; }
 }
 .btn-outline-accent:hover { background: var(--color-accent); color: #fff; }
 
-.category-tiles-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+/* --- Каруселька популярних категорій: видно 3, стрілками гортаємо далі --- */
+.category-carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
 }
-.category-tiles-grid + .category-tiles-grid { margin-top: 28px; }
+.category-carousel-track {
+  display: flex;
+  flex: 1 1 0%;
+  min-width: 0;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.category-carousel-track::-webkit-scrollbar { display: none; }
+.category-carousel-track .category-tile {
+  flex: 0 0 calc((100% - 2 * 24px) / 3);
+  scroll-snap-align: start;
+}
+.category-carousel-nav {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(9,63,97,0.18);
+  transition: color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  z-index: 2;
+}
+.category-carousel-nav:hover { color: var(--color-accent); }
+.category-carousel-nav:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+
 @media (max-width: 1100px) {
-  .category-tiles-grid { grid-template-columns: repeat(2, 1fr); }
+  .category-carousel-track .category-tile { flex-basis: calc((100% - 24px) / 2); }
 }
 @media (max-width: 720px) {
-  .category-tiles-grid { grid-template-columns: 1fr; }
+  .category-carousel-track .category-tile { flex-basis: 85%; }
+  .category-carousel-nav { width: 36px; height: 36px; }
 }
 
 .category-tile {

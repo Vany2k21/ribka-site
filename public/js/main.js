@@ -523,3 +523,37 @@ var GoodFishCart = (function () {
   });
 })();
 
+
+// Каруселька популярних категорій: стрілки гортають по 3 картки
+(function () {
+  document.querySelectorAll('.category-carousel').forEach(function (carousel) {
+    var track = carousel.querySelector('.category-carousel-track');
+    var prevBtn = carousel.querySelector('.category-carousel-prev');
+    var nextBtn = carousel.querySelector('.category-carousel-next');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    function pageWidth() {
+      var card = track.querySelector('.category-tile');
+      if (!card) return track.clientWidth;
+      var gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 0);
+      return card.getBoundingClientRect().width + gap;
+    }
+
+    function updateButtons() {
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      prevBtn.disabled = track.scrollLeft <= 2;
+      nextBtn.disabled = track.scrollLeft >= maxScroll - 2;
+    }
+
+    prevBtn.addEventListener('click', function () {
+      track.scrollBy({ left: -pageWidth() * 3, behavior: 'smooth' });
+    });
+    nextBtn.addEventListener('click', function () {
+      track.scrollBy({ left: pageWidth() * 3, behavior: 'smooth' });
+    });
+
+    track.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', updateButtons);
+    updateButtons();
+  });
+})();
